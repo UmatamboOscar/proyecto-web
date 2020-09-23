@@ -13,7 +13,6 @@ import {UsuarioService} from "./usuario.service";
 import {UsuarioCreateDto} from "./dto/usuario.create-dto";
 import {UsuarioUpdateDto} from "./dto/usuario.update-dto";
 import {LibroService} from "../libro/libro.service";
-import {catchError} from "rxjs/operators";
 import {UsuarioEntity} from "./usuario.entity";
 
 

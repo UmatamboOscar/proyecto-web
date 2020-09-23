@@ -1,8 +1,9 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {UsuarioEntity} from "../Usuario/usuario.entity";
 import {VacunaEntity} from "../vacuna/vacuna.entity";
 import {CategoriaEntity} from "../categoria/categoria.entity";
 import {AutorEntity} from "../autor/autor.entity";
+import {DetalleEntity} from "../detallePedido/detalle.entity";
 
 @Entity()
 export class LibroEntity{
@@ -15,46 +16,22 @@ export class LibroEntity{
     @Column()
     stock: number;
 
-@ManyToOne(
-    type=>UsuarioEntity,
-    usuario=> usuario.libros
-)
-    usuario: UsuarioEntity;
 
-
-
-@OneToMany(
-    type => CategoriaEntity,
-    categoria=> categoria.libro
-)
+    @ManyToMany(
+        type => CategoriaEntity,
+        categoria=> categoria.libros
+    )
     categorias: CategoriaEntity;
 
-    @OneToMany(
-        type => CategoriaEntity,
-        autor=> autor.libro
+    @ManyToMany(
+        type => AutorEntity,
+        autor=> autor.libros
     )
     autores: AutorEntity;
 
+    @ManyToOne(
+        type => DetalleEntity,
+        detalle=> detalle.libros
+    )
+    detalle: DetalleEntity;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
