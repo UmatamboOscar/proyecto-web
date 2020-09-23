@@ -1,5 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
+import {DetalleEntity} from "../detallePedido/detalle.entity";
+import {UsuarioEntity} from "../Usuario/usuario.entity";
 
 
 @Entity()
@@ -14,10 +16,10 @@ export class PedidoEntity{
     estado: boolean;
 
     @ManyToOne(
-        type=>LibroEntity,
-        libro=> libro.autores
+        type=>UsuarioEntity,
+        usuario=> usuario.pedidos
     )
-    libro: LibroEntity;
+    usuario: UsuarioEntity;
 
 
     @OneToMany(
@@ -26,4 +28,9 @@ export class PedidoEntity{
     )
     libros: LibroEntity;
 
+    @OneToMany(
+        type => DetalleEntity,
+        detalle=>detalle.pedido
+    )
+    detalles:DetalleEntity[];
 }

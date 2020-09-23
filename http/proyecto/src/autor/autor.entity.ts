@@ -1,5 +1,4 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {UsuarioEntity} from "../Usuario/usuario.entity";
+import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 
 
@@ -12,16 +11,9 @@ export class AutorEntity{
     @Column()
     nacionalidad: string;
 
-    @ManyToOne(
-        type=>LibroEntity,
-        libro=> libro.autores
-    )
-    libro: LibroEntity;
-
-
-    @OneToMany(
+    @ManyToMany(
         type => LibroEntity,
-        libro=> libro.autor
+        libro=> libro.autores
     )
     libros: LibroEntity;
 
