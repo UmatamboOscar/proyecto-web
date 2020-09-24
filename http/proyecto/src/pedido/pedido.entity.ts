@@ -31,10 +31,10 @@ export class PedidoEntity{
 
     @Column({
         name: 'estadoCarrito',
-        type: 'boolean',
+        type: 'varchar',
         nullable: false
     })
-    estado: boolean;
+    estado: string;
 
     @ManyToOne(
         type=>UsuarioEntity,
