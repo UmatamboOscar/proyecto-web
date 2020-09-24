@@ -4,7 +4,7 @@ import {DetalleEntity} from "../detallePedido/detalle.entity";
 import {UsuarioEntity} from "../Usuario/usuario.entity";
 
 
-@Entity()
+@Entity('pedido')
 export class PedidoEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,

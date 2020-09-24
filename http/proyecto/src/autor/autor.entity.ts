@@ -2,7 +2,7 @@ import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 
 
-@Entity()
+@Entity('autor')
 export class AutorEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,

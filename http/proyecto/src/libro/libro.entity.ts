@@ -1,11 +1,11 @@
-import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UsuarioEntity} from "../Usuario/usuario.entity";
 import {VacunaEntity} from "../vacuna/vacuna.entity";
 import {CategoriaEntity} from "../categoria/categoria.entity";
 import {AutorEntity} from "../autor/autor.entity";
 import {DetalleEntity} from "../detallePedido/detalle.entity";
 
-@Entity()
+@Entity('libro')
 export class LibroEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,
@@ -56,9 +56,9 @@ export class LibroEntity{
     )
     autores: AutorEntity;
 
-    @ManyToOne(
+    @OneToOne(
         type => DetalleEntity,
-        detalle=> detalle.libros
+        detalle=> detalle.libro
     )
     detalle: DetalleEntity;
 }

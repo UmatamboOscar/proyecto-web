@@ -7,17 +7,14 @@ import {PedidoEntity} from "../pedido/pedido.entity";
 @Index([
     'nombre',
     'apellido',
+    'telefono',
     'cedula',
-    'fechaNacimiento'
+    'domicilio',
+    'correo',
+    'password'//Nombres de las propiedades en las clases
 ])
 
-@Index([
-    'nombre',
-    'apellido',
-    'cedula'
-],{unique:true})
-
-@Entity('epn_usuario') //nombre de la tabla usuario'
+@Entity('usuario') //nombre de la tabla usuario'
 export class UsuarioEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,
