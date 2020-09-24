@@ -1,9 +1,9 @@
-import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 import {PedidoEntity} from "../pedido/pedido.entity";
 
 
-@Entity()
+@Entity('detalle_pedido')
 export class DetalleEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,
@@ -37,11 +37,11 @@ export class DetalleEntity{
     })
     precioTotal: number;
 
-    @OneToMany(
+    @OneToOne(
         type => LibroEntity,
         libro=> libro.detalle
     )
-    libros: LibroEntity[];
+    libro: LibroEntity;
 
     @ManyToOne(
         type => PedidoEntity,

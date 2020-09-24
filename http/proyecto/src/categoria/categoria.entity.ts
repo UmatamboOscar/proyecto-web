@@ -1,7 +1,7 @@
 import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 
-@Entity()
+@Entity('categoria')
 export class CategoriaEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,

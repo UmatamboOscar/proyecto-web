@@ -11,7 +11,6 @@ import {LibroModule} from "../libro/libro.module";
             UsuarioController
         ],
         imports:[
-            LibroModule,
             TypeOrmModule
                 .forFeature([
                     UsuarioEntity
