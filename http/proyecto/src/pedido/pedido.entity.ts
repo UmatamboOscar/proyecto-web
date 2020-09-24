@@ -6,13 +6,34 @@ import {UsuarioEntity} from "../Usuario/usuario.entity";
 
 @Entity()
 export class PedidoEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column()
-    fecha: string;
-    @Column()
-    precio: number;
-    @Column()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
+    id: number
+
+    @Column({
+        nullable: false,
+        type: 'date',
+        name: 'fechaPedido'
+    })
+    fechaPedido: string;
+
+    @Column({
+        name: 'precioTotal',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
+    precioTotal: number;
+
+    @Column({
+        name: 'estadoCarrito',
+        type: 'boolean',
+        nullable: false
+    })
     estado: boolean;
 
     @ManyToOne(
@@ -20,13 +41,6 @@ export class PedidoEntity{
         usuario=> usuario.pedidos
     )
     usuario: UsuarioEntity;
-
-
-    @OneToMany(
-        type => LibroEntity,
-        libro=> libro.autor
-    )
-    libros: LibroEntity;
 
     @OneToMany(
         type => DetalleEntity,

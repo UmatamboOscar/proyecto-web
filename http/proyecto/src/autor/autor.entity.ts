@@ -4,11 +4,25 @@ import {LibroEntity} from "../libro/libro.entity";
 
 @Entity()
 export class AutorEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
     id: number;
-    @Column()
+
+    @Column({
+        name: 'nombre',
+        type: 'varchar',
+        nullable: false
+    })
     nombre: string;
-    @Column()
+
+    @Column({
+        name: 'nacionalidad',
+        type: 'varchar',
+        nullable: false
+    })
     nacionalidad: string;
 
     @ManyToMany(
