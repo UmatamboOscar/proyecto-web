@@ -5,13 +5,36 @@ import {PedidoEntity} from "../pedido/pedido.entity";
 
 @Entity()
 export class DetalleEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
     id: number;
-    @Column()
+
+    @Column({
+        name: 'cantidad',
+        type: 'int',
+        nullable: false,
+    })
     cantidad: number;
-    @Column()
+
+    @Column({
+        name: 'precioUnitario',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
     precioUnitario: number;
-    @Column()
+
+    @Column({
+        name: 'precioTotal',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
     precioTotal: number;
 
     @OneToMany(

@@ -7,15 +7,42 @@ import {DetalleEntity} from "../detallePedido/detalle.entity";
 
 @Entity()
 export class LibroEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
     id: number;
-    @Column()
+
+    @Column({
+        name: 'ISBN',
+        type: 'varchar',
+        nullable: false
+    })
+    ISBN: string;
+
+    @Column({
+        name: 'titulo',
+        type: 'varchar',
+        nullable: false
+    })
     titulo: string;
-    @Column()
-    autor: string;
-    @Column()
+
+    @Column({
+        name: 'stock',
+        type: 'int',
+        nullable: false,
+    })
     stock: number;
 
+    @Column({
+        name: 'precio',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
+    precio: number;
 
     @ManyToMany(
         type => CategoriaEntity,

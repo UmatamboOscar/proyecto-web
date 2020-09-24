@@ -3,17 +3,24 @@ import {LibroEntity} from "../libro/libro.entity";
 
 @Entity()
 export class CategoriaEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
     id: number;
-    @Column()
+
+    @Column({
+        name: 'nombre',
+        type: 'varchar',
+        nullable: false
+    })
     nombre: string;
-    @Column()
 
     @ManyToMany(
         type=>LibroEntity,
         libro=> libro.categorias
     )
     libros: LibroEntity;
-
 
 }

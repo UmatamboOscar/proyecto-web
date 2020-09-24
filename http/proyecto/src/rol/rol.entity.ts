@@ -3,11 +3,21 @@ import {UsuarioEntity} from "../Usuario/usuario.entity";
 
 @Entity()
 export class RolEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
-    @Column()
-    tipo: string;
-    @Column()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
+    id: number
+
+    @Column({
+        name: 'rol',
+        type: 'varchar',
+        length: '20',
+        nullable:false
+    })
+    rol:string
+
 
     @ManyToMany(
         type=>UsuarioEntity,
