@@ -3,16 +3,7 @@ import {Column, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn} fr
 import {LibroEntity} from "../libro/libro.entity";
 import {RolEntity} from "../rol/rol.entity";
 import {PedidoEntity} from "../pedido/pedido.entity";
-
-@Index([
-    'nombre',
-    'apellido',
-    'telefono',
-    'cedula',
-    'domicilio',
-    'correo',
-    'password'//Nombres de las propiedades en las clases
-])
+import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 
 @Entity('usuario') //nombre de la tabla usuario'
 export class UsuarioEntity{
@@ -83,11 +74,11 @@ export class UsuarioEntity{
     )
     pedidos: PedidoEntity[];
 
-    @ManyToMany(
-        type => RolEntity,//que entide nos relacionamos
-        rol => rol.usuarios
+    @OneToMany(
+        type => RolUsuarioEntity,//que entide nos relacionamos
+        usuarioRol => usuarioRol.usuario
     )
-    roles: RolEntity[];
+    roles: RolUsuarioEntity[];
 
 }
 

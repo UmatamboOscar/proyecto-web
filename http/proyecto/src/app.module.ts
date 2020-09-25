@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {UsuarioEntity} from "./Usuario/usuario.entity";
-import {UsuarioModule} from "./Usuario/usuario.module";
+import {UsuarioEntity} from "./usuario/usuario.entity";
+import {UsuarioModule} from "./usuario/usuario.module";
 import {RolEntity} from "./rol/rol.entity";
 import {PedidoEntity} from "./pedido/pedido.entity";
 import {DetalleEntity} from "./detallePedido/detalle.entity";
@@ -16,6 +16,12 @@ import {DetalleModule} from "./detallePedido/detalle.module";
 import {LibroModule} from "./libro/libro.module";
 import {CategoriaModule} from "./categoria/categoria.module";
 import {AutorModule} from "./autor/autor.module";
+import {RolUsuarioModule} from "./rol_usuario/rol_usuario.module";
+import {RolUsuarioEntity} from "./rol_usuario/rol_usuario.entity";
+import {LibroAutorModule} from "./libro_autor/libro_autor.module";
+import {LibroAutorEntity} from "./libro_autor/libro_autor.entity";
+import {LibroCategoriaEntity} from "./libro_categoria/libro_categoria.entity";
+import {LibroCategoriaModule} from "./libro_categoria/libro_categoria.module";
 
 @Module({
   imports: [
@@ -26,6 +32,9 @@ import {AutorModule} from "./autor/autor.module";
       LibroModule,
       CategoriaModule,
       AutorModule,
+      RolUsuarioModule,
+      LibroAutorModule,
+      LibroCategoriaModule,
     TypeOrmModule.forRoot({
       name: 'default',
       type: 'mysql',
@@ -35,13 +44,16 @@ import {AutorModule} from "./autor/autor.module";
       password: '0120saul',
       database: 'proyectoweb',
       entities: [
-        UsuarioEntity,
+          UsuarioEntity,
           RolEntity,
           PedidoEntity,
           DetalleEntity,
           LibroEntity,
           CategoriaEntity,
-          AutorEntity
+          AutorEntity,
+          RolUsuarioEntity,
+          LibroAutorEntity,
+          LibroCategoriaEntity
       ],
       synchronize: true,
       dropSchema: false,
@@ -50,4 +62,6 @@ import {AutorModule} from "./autor/autor.module";
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}
+
