@@ -1,5 +1,6 @@
 import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {UsuarioEntity} from "../Usuario/usuario.entity";
+import {UsuarioEntity} from "../usuario/usuario.entity";
+import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 
 @Entity('rol')
 export class RolEntity{
@@ -19,11 +20,10 @@ export class RolEntity{
     rol:string
 
 
-    @ManyToMany(
-        type=>UsuarioEntity,
-        usuario=> usuario.roles
+    @OneToMany(
+        type => RolUsuarioEntity,//que entide nos relacionamos
+        rolUsuario => rolUsuario.rol
     )
-    usuarios: UsuarioEntity;
-
+    usuarios: RolUsuarioEntity[];
 
 }

@@ -1,5 +1,5 @@
-import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
-import {LibroEntity} from "../libro/libro.entity";
+import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {LibroAutorEntity} from "../libro_autor/libro_autor.entity";
 
 
 @Entity('autor')
@@ -25,10 +25,10 @@ export class AutorEntity{
     })
     nacionalidad: string;
 
-    @ManyToMany(
-        type => LibroEntity,
-        libro=> libro.autores
+    @OneToMany(
+        type => LibroAutorEntity,//que entide nos relacionamos
+        autorLibro => autorLibro.autor
     )
-    libros: LibroEntity;
+    libros: LibroAutorEntity[];
 
 }

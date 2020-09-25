@@ -1,9 +1,7 @@
-import {Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {UsuarioEntity} from "../Usuario/usuario.entity";
-import {VacunaEntity} from "../vacuna/vacuna.entity";
-import {CategoriaEntity} from "../categoria/categoria.entity";
-import {AutorEntity} from "../autor/autor.entity";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {DetalleEntity} from "../detallePedido/detalle.entity";
+import {LibroAutorEntity} from "../libro_autor/libro_autor.entity";
+import {LibroCategoriaEntity} from "../libro_categoria/libro_categoria.entity";
 
 @Entity('libro')
 export class LibroEntity{
@@ -44,21 +42,21 @@ export class LibroEntity{
     })
     precio: number;
 
-    @ManyToMany(
-        type => CategoriaEntity,
-        categoria=> categoria.libros
+    @OneToMany(
+        type => LibroAutorEntity,//que entide nos relacionamos
+        libroAutor => libroAutor.libro
     )
-    categorias: CategoriaEntity;
+    autores: LibroAutorEntity[];
 
-    @ManyToMany(
-        type => AutorEntity,
-        autor=> autor.libros
+    @OneToMany(
+        type => LibroCategoriaEntity,//que entide nos relacionamos
+        libroCategoria => libroCategoria.libro
     )
-    autores: AutorEntity;
+    categorias: LibroCategoriaEntity[];
 
-    @OneToOne(
+    @OneToMany(
         type => DetalleEntity,
         detalle=> detalle.libro
     )
-    detalle: DetalleEntity;
+    detalles: DetalleEntity[];
 }

@@ -1,7 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 import {DetalleEntity} from "../detallePedido/detalle.entity";
-import {UsuarioEntity} from "../Usuario/usuario.entity";
+import {UsuarioEntity} from "../usuario/usuario.entity";
 
 
 @Entity('pedido')

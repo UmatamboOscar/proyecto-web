@@ -37,9 +37,9 @@ export class DetalleEntity{
     })
     precioTotal: number;
 
-    @OneToOne(
+    @ManyToOne(
         type => LibroEntity,
-        libro=> libro.detalle
+        libro=> libro.detalles
     )
     libro: LibroEntity;
 
