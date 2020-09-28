@@ -19,5 +19,14 @@ export class AppController {
     )
   }
 
+  @Get('registro')
+  registro(
+      @Res() res
+  ){
+    res.render(
+        'login/registro'
+    )
+  }
+
 
 }
