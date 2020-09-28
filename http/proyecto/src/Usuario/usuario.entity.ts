@@ -3,21 +3,9 @@ import {Column, Entity, Index, ManyToMany, OneToMany, PrimaryGeneratedColumn} fr
 import {LibroEntity} from "../libro/libro.entity";
 import {RolEntity} from "../rol/rol.entity";
 import {PedidoEntity} from "../pedido/pedido.entity";
+import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 
-@Index([
-    'nombre',
-    'apellido',
-    'cedula',
-    'fechaNacimiento'
-])
-
-@Index([
-    'nombre',
-    'apellido',
-    'cedula'
-],{unique:true})
-
-@Entity('epn_usuario') //nombre de la tabla usuario'
+@Entity('usuario') //nombre de la tabla usuario'
 export class UsuarioEntity{
     @PrimaryGeneratedColumn({
         unsigned: true,
@@ -25,46 +13,60 @@ export class UsuarioEntity{
         name: 'id'
     })
     id: number
+
     @Column({
         name: 'nombre',
         type: 'varchar',
         length: '60',
         nullable:false
     })
-    nombre?:string
+    nombre:string
 
     @Column({
         name: 'apellido',
         length: '60',
         type: 'varchar',
-        nullable:true
+        nullable:false
     })
-    apellido?:string
+    apellido:string
+
+    @Column({
+        name:'telefono',
+        nullable: true,
+        type: 'varchar',
+        length: '10'
+    })
+    telefono?:string;
 
     @Column({
         name: 'cedula',
         type: 'varchar',
         nullable: false,
         unique: true,
-        length: '18',
+        length: '10',
     })
     cedula:string
 
     @Column({
-        name:'sueldo',
+        name:'domicilio',
         nullable: true,
-        type: 'decimal',
-        precision: 10, // 100000000000
-        scale: 2 //.0001
+        type: 'varchar'
     })
-    sueldo?:number;
+    domicilio?:string;
 
     @Column({
-        name:'fechaNacimiento',
-        nullable:true,
-        type:'datetime'
+        name:'correo',
+        nullable: false,
+        type: 'varchar'
     })
-    fechaNacimiento:string
+    correo:string;
+
+    @Column({
+        name:'password',
+        nullable: false,
+        type: 'varchar'
+    })
+    password:string;
 
     @OneToMany(
         type => PedidoEntity,//que entide nos relacionamos
@@ -72,11 +74,11 @@ export class UsuarioEntity{
     )
     pedidos: PedidoEntity[];
 
-    @ManyToMany(
-        type => RolEntity,//que entide nos relacionamos
-        rol => rol.usuarios
+    @OneToMany(
+        type => RolUsuarioEntity,//que entide nos relacionamos
+        usuarioRol => usuarioRol.usuario
     )
-    roles: RolEntity[];
+    roles: RolUsuarioEntity[];
 
 }
 

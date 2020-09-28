@@ -1,24 +1,47 @@
-import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
 import {PedidoEntity} from "../pedido/pedido.entity";
 
 
-@Entity()
+@Entity('detalle_pedido')
 export class DetalleEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true,
+        comment:'Identificador',
+        name: 'id'
+    })
     id: number;
-    @Column()
+
+    @Column({
+        name: 'cantidad',
+        type: 'int',
+        nullable: false,
+    })
     cantidad: number;
-    @Column()
+
+    @Column({
+        name: 'precioUnitario',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
     precioUnitario: number;
-    @Column()
+
+    @Column({
+        name: 'precioTotal',
+        nullable: false,
+        type: 'decimal',
+        precision: 10,
+        scale: 2
+    })
     precioTotal: number;
 
-    @OneToMany(
+    @ManyToOne(
         type => LibroEntity,
-        libro=> libro.detalle
+        libro=> libro.detalles
     )
-    libros: LibroEntity[];
+    libro: LibroEntity;
 
     @ManyToOne(
         type => PedidoEntity,
