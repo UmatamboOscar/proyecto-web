@@ -42,6 +42,20 @@ export class LibroEntity{
     })
     precio: number;
 
+    @Column({
+        name: 'imagen',
+        type: 'varchar',
+        nullable: false
+    })
+    imagen: string;
+
+    @Column({
+        name: 'descripcion',
+        type: 'varchar',
+        nullable: false
+    })
+    descripcion: string;
+
     @OneToMany(
         type => LibroAutorEntity,//que entide nos relacionamos
         libroAutor => libroAutor.libro

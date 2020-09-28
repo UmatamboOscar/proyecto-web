@@ -1,6 +1,5 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {LibroEntity} from "../libro/libro.entity";
-import {AutorEntity} from "../autor/autor.entity";
 import {CategoriaEntity} from "../categoria/categoria.entity";
 
 @Entity('libro_categoria')

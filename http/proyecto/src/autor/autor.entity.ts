@@ -25,6 +25,20 @@ export class AutorEntity{
     })
     nacionalidad: string;
 
+    @Column({
+        name: 'imagen',
+        type: 'varchar',
+        nullable: false
+    })
+    imagen: string;
+
+    @Column({
+        name: 'descripcion',
+        type: 'varchar',
+        nullable: false
+    })
+    descripcion: string;
+
     @OneToMany(
         type => LibroAutorEntity,//que entide nos relacionamos
         autorLibro => autorLibro.autor
