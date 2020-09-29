@@ -3,6 +3,8 @@ import {UsuarioController} from "./usuario.controller";
 import {UsuarioService} from "./usuario.service";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UsuarioEntity} from "./usuario.entity";
+import {RolUsuarioModule} from "../rol_usuario/rol_usuario.module";
+import {RolModule} from "../rol/rol.module";
 
 @Module(
     {
@@ -10,6 +12,8 @@ import {UsuarioEntity} from "./usuario.entity";
             UsuarioController
         ],
         imports:[
+            RolModule,
+            RolUsuarioModule,
             TypeOrmModule
                 .forFeature([
                     UsuarioEntity

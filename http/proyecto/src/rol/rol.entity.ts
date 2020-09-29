@@ -1,6 +1,8 @@
 import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {UsuarioEntity} from "../usuario/usuario.entity";
 import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
+import {doc} from "prettier";
+import join = doc.builders.join;
 
 @Entity('rol')
 export class RolEntity{
@@ -22,7 +24,8 @@ export class RolEntity{
 
     @OneToMany(
         type => RolUsuarioEntity,//que entide nos relacionamos
-        rolUsuario => rolUsuario.rol
+        rolUsuario => rolUsuario.rol,
+
     )
     usuarios: RolUsuarioEntity[];
 

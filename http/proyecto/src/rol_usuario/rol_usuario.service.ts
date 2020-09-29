@@ -10,7 +10,8 @@ export  class RolUsuarioService {
         private repositorio: Repository<RolUsuarioEntity>
     ) {
     }
-    crearNuevoRolUsuario(autor:RolUsuarioEntity){
-        return this.repositorio.save(autor);
+
+    crearNuevoRolUsuario(rolUsuario: RolUsuarioEntity){
+        return this.repositorio.save(rolUsuario);
     }
 }
