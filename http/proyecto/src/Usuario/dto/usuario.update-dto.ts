@@ -1,25 +1,25 @@
 import {
     IS_DECIMAL,
-    IsAlpha, IsDateString, IsDecimal, IsIdentityCard,
+    IsAlpha, IsDateString, IsDecimal, IsEmail, IsIdentityCard,
     IsNotEmpty, IsNumber, IsNumberString, IsOptional,
-    IsPositive, Length,
+    IsPositive, IsString, Length,
     MaxLength,
     MinLength
 } from "class-validator";
 
 export class UsuarioUpdateDto{
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsAlpha()
     @MaxLength(60)
     @MinLength(3)
-    nombre?:string;
+    nombre:string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsAlpha()
     @MaxLength(60)
     @MinLength(3)
-    apellido?:string;
+    apellido:string;
 
     @IsNotEmpty()
     @IsNumberString()
@@ -27,12 +27,23 @@ export class UsuarioUpdateDto{
     cedula:string;
 
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    sueldo?:number;
+    @IsNumberString()
+    @MaxLength(10)
+    @MinLength(9)
+    telefono?:string;
 
     @IsOptional()
-    @IsDateString()
-    fechaNacimiento?: string;
+    @IsString()
+    @MaxLength(100)
+    domicilio?:string;
+
+    @IsNotEmpty()
+    @IsEmail()
+    correo:string;
+
+    @IsNotEmpty()
+    @IsString()
+    @MinLength(8)
+    password:string;
 
 }

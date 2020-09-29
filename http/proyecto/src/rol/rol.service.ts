@@ -13,4 +13,8 @@ export  class RolService {
     crearNuevoRol(rol:RolEntity){
         return this.repositorio.save(rol);
     }
+
+    buscarUno(id: number){
+        return this.repositorio.findOne(id)
+    }
 }
