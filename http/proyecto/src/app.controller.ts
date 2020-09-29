@@ -1,4 +1,4 @@
-import {Controller, Get, Res} from '@nestjs/common';
+import {Controller, Get, Query, Res} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -21,10 +21,20 @@ export class AppController {
 
   @Get('registro')
   registro(
-      @Res() res
+      @Res() res,
+      @Query() parametrosConsulta
   ){
     res.render(
-        'login/registro'
+        'login/registro',
+        {
+            error: parametrosConsulta.error,
+            nombre: parametrosConsulta.nombre,
+            apellido: parametrosConsulta.apellido,
+            cedula: parametrosConsulta.cedula,
+            correo: parametrosConsulta.correo,
+            telefono: parametrosConsulta.telefono,
+            domicilio: parametrosConsulta.domicilio,
+        }
     )
   }
 

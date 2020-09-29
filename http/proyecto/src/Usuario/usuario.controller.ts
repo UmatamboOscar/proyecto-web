@@ -11,7 +11,6 @@ import {RolService} from "../rol/rol.service";
 import {RolEntity} from "../rol/rol.entity";
 import {UsuarioEntity} from "./usuario.entity";
 
-
 @Controller('usuario')
 
 export class UsuarioController {
@@ -37,58 +36,69 @@ export class UsuarioController {
         usuario.telefono = parametrosCuerpo.telefono
         usuario.domicilio = parametrosCuerpo.domicilio
         usuario.password = parametrosCuerpo.password
-        let usuarioCreado: UsuarioEntity
-        try {
-            const error: ValidationError[] = await validate(usuario)
-            if(error.length == 0){
-                try {
-                    usuarioCreado = await this._usuarioService.crearUno(parametrosCuerpo);
-                }catch (error) {
-                    const mensajeError = 'Creando Usuario'
-                    return res.redirect('/registro?error='+mensajeError)
-                }
-            }else{
-                const mensajeError = 'Datos Inválidos'
-                return res.redirect('/registro?error='+mensajeError)
-            }
-        } catch (error) {
-            const mensajeError = 'En validación de datos'
-            return res.redirect('/registro?error='+mensajeError)
-        }
-        let rolEncontrado: RolEntity
-        if(usuarioCreado){
+        if(parametrosCuerpo.password == parametrosCuerpo.confPassword) {
+            let usuarioCreado: UsuarioEntity
             try {
-                rolEncontrado = await this._rolService.buscarUno(2)
-            }catch (error) {
-                const mensajeError = 'Buscando Rol'
-                return res.redirect('/registro?error='+mensajeError)
+                const error: ValidationError[] = await validate(usuario)
+                if (error.length == 0) {
+                    try {
+                        usuarioCreado = await this._usuarioService.crearUno(parametrosCuerpo);
+                    } catch (error) {
+                        const mensajeError = 'Datos Inválidos'
+                        return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+                    }
+                } else {
+                    const mensajeError = 'Datos Inválidos'
+                    return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+                }
+            } catch (error) {
+                const mensajeError = 'Datos Inválidos'
+                return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+            }
+            let rolEncontrado: RolEntity
+            if (usuarioCreado) {
+                try {
+                    rolEncontrado = await this._rolService.buscarUno(2)
+                } catch (error) {
+                    const mensajeError = 'Datos Inválidos'
+                    return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+                }
+            } else {
+                const mensajeError = 'Datos Inválidos'
+                return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+            }
+            let rolUsuarioCreado
+            let rolUsuario: RolUsuarioEntity;
+            if (rolEncontrado) {
+                let rolUsuario1;
+                rolUsuario1 = {
+                    rol: rolEncontrado,
+                    usuario: usuarioCreado
+                }
+                rolUsuario = rolUsuario1
+                rolUsuarioCreado = await this._rolUsuarioService.crearNuevoRolUsuario(rolUsuario);
+            } else {
+                const mensajeError = 'Datos Inválidos'
+                return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+            }
+            if (rolUsuarioCreado) {
+                session.usuario = usuarioCreado.nombre
+                session.roles = [rolEncontrado.rol]
+                    res.render(
+                        'inicio/inicio',
+                        {
+                            mensaje: 'Usuario registrado correctamente',
+                            usuario: session.usuario,
+                            roles: session.roles
+                        }
+                    )
+            } else {
+                const mensajeError = 'Datos Inválidos'
+                return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
         }else{
-            const mensajeError = 'Creando Usuario'
-            return res.redirect('/registro?error='+mensajeError)
-        }
-        let rolUsuarioCreado
-        let rolUsuario: RolUsuarioEntity;
-        if(rolEncontrado){
-            let rolUsuario1;
-            rolUsuario1 = {
-                rol: rolEncontrado,
-                usuario: usuarioCreado
-            }
-            rolUsuario = rolUsuario1
-            rolUsuarioCreado = await this._rolUsuarioService.crearNuevoRolUsuario(rolUsuario);
-        }else{
-            const mensajeError = 'Registrando Detalle Rol'
-            return res.redirect('/registro?error='+mensajeError)
-        }
-        if(rolUsuarioCreado){
-            const mensaje = 'Usuario registrado correctamente'
-            session.usuario = usuarioCreado.nombre
-            session.roles = [rolEncontrado.rol]
-            return res.redirect('/inicio?mensaje='+mensaje)
-        }else{
-            const mensajeError = 'Registrando Rol'
-            return res.redirect('/registro?error='+mensajeError)
+            const mensajeError = 'Las Contraseñas no coinciden'
+            return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
         }
     }
 }
