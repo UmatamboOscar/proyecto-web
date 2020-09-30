@@ -68,6 +68,14 @@ export class UsuarioEntity{
     })
     password:string;
 
+    @Column({
+        name: 'rol',
+        nullable: false,
+        type: 'varchar',
+        default: 'USUARIO'
+    })
+    rol:string;
+
     @OneToMany(
         type => PedidoEntity,//que entide nos relacionamos
         pedido => pedido.usuario

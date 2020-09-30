@@ -10,6 +10,7 @@ import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 import {RolService} from "../rol/rol.service";
 import {RolEntity} from "../rol/rol.entity";
 import {UsuarioEntity} from "./usuario.entity";
+import {getRepository} from "typeorm";
 
 @Controller('usuario')
 
@@ -84,14 +85,14 @@ export class UsuarioController {
             if (rolUsuarioCreado) {
                 session.usuario = usuarioCreado.nombre
                 session.roles = [rolEncontrado.rol]
-                    res.render(
-                        'inicio/inicio',
-                        {
-                            mensaje: 'Usuario registrado correctamente',
-                            usuario: session.usuario,
-                            roles: session.roles
-                        }
-                    )
+                res.render(
+                    'inicio/inicio',
+                    {
+                        mensaje: 'Usuario registrado correctamente',
+                        usuario: session.usuario,
+                        roles: session.roles
+                    }
+                )
             } else {
                 const mensajeError = 'Datos Inválidos'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
@@ -101,4 +102,57 @@ export class UsuarioController {
             return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
         }
     }
+
+    @Post('login')
+    async login(
+        @Body() parametrosConsulta,
+        @Res() res,
+        @Session() session
+    ) {
+        const password = parametrosConsulta.password;
+        let busquedaUsuario
+        try {
+            busquedaUsuario = await this._usuarioService.buscarPorCorreo(parametrosConsulta.correo)
+        }catch (error) {
+            const mensajeError = 'Correo no registrado'
+            res.redirect('/login?error=' + mensajeError)
+        }
+        if(busquedaUsuario){
+            console.log( busquedaUsuario[0] )
+            if(  busquedaUsuario[0].password == password){
+                // let buscarRol
+                // let respuestaRol
+                // try {
+                //     buscarRol = await this._rolUsuarioService.buscarPorIdUsuario(busquedaUsuario[0].roles.id)
+                //     console.log(buscarRol.usuarioId)
+                //     console.log(respuestaRol)
+                // }catch (error) {
+                //     const mensajeError = 'no se encontro rol'
+                //     res.redirect('/login?error=' + mensajeError)
+                // }
+                // if(buscarRol){
+                //     const mensajeError = 'jeje si encontro'
+                //     res.redirect('/login?error=' + mensajeError)
+                // }
+                session.usuario = busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido
+                session.roles = [busquedaUsuario[0].rol]
+                res.render(
+                    'inicio/inicio',
+                    {
+                        usuario: session.usuario,
+                        roles: session.roles
+                    }
+                )
+            }else{
+                const mensajeError = 'Usuario o contraseña incorrecta'
+                res.redirect('/login?error=' + mensajeError)
+            }
+        }else{
+            const mensajeError = 'Correo no registrado'
+            res.redirect('/login?error=' + mensajeError)
+        }
+    }
+
+
+
 }

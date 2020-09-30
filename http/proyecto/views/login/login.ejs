@@ -1,0 +1,33 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+<%- include('../componentes/nav-bar')%>
+<%- include('../componentes/pie-de-pantalla')%>
+
+<div class="row">
+    <div class="col-sm-5">
+        <img src="https://image.flaticon.com/icons/png/512/833/833744.png"
+             alt="Imagen Icono de registro" width="300" height="275" style="margin-top: 5px">
+        <% if (typeof error !== 'undefined') {%>
+            <div class="alert alert-danger">
+                <%= error%>
+            </div>
+        <%}%>
+    </div>
+    <div class="col-sm-7 centerTable">
+        <br>
+        <form action="/usuario/login" method="POST">
+            <table>
+                <tr>
+                    <td><label for="correoID">Correo:    </label></td>
+                    <td><input id="correoID" type="email" name="correo" value=""></td>
+                </tr>
+                <tr>
+                    <td><label for="passwordID">password:    </label></td>
+                    <td><input id="passwordID" type="password" name="password" value=""></td>
+                </tr>
+            </table>
+            <button type="submit">INICIAR SESIÓN</button>
+            <button type="reset">CANCELAR</button>
+        </form>
+    </div>
+</div>
