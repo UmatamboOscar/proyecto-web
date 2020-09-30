@@ -1,4 +1,4 @@
-import {Controller, Get, Query, Res} from '@nestjs/common';
+import {Controller, Get, Query, Req, Res, Session} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -38,5 +38,29 @@ export class AppController {
     )
   }
 
+    @Get('login')
+    login(
+        @Res() res,
+        @Query() parametrosConsulta
+    ) {
+        res.render(
+            'login/login',
+            {
+                error: parametrosConsulta.error,
+            }
+        )
+    }
+
+    @Get('logout')
+    logout(
+        @Session() session,
+        @Res() response,
+        @Req() request
+    ){
+        session.username = undefined;
+        session.roles = undefined;
+        request.session.destroy();
+        return response.redirect('inicio')
+    }
 
 }

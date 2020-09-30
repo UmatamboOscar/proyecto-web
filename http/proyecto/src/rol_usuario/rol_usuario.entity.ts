@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UsuarioEntity} from "../usuario/usuario.entity";
 import {RolEntity} from "../rol/rol.entity";
 
@@ -16,12 +16,14 @@ export class RolUsuarioEntity {
         type=>RolEntity,
         rol=> rol.usuarios
     )
+    @JoinColumn({name: 'rolId'})
     rol: RolEntity;
 
     @ManyToOne(
         type=>UsuarioEntity,
         usuario=> usuario.roles
     )
+    @JoinColumn({name: 'usuarioId'})
     usuario: UsuarioEntity;
 
 }

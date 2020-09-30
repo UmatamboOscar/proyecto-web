@@ -25,7 +25,6 @@ export class RolEntity{
     @OneToMany(
         type => RolUsuarioEntity,//que entide nos relacionamos
         rolUsuario => rolUsuario.rol,
-
     )
     usuarios: RolUsuarioEntity[];
 
