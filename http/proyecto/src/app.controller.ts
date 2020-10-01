@@ -146,6 +146,7 @@ export class AppController {
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta
         const busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
+        let consultaCategorias = await this._categoriasService.buscarTodos()
         try {
             resultadoConsulta = await this._libroService.buscarTodos();
         } catch (error) {
@@ -159,7 +160,8 @@ export class AppController {
                         libros: resultadoConsulta,
                         parametrosConsulta: parametrosConsulta,
                         usuario: session.usuario,
-                        roles: session.roles
+                        roles: session.roles,
+                        categorias: consultaCategorias
                     }
                 )
             } else {

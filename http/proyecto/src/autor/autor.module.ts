@@ -2,6 +2,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {AutorEntity} from "./autor.entity";
 import {AutorService} from "./autor.service";
 import {Module} from "@nestjs/common";
+import {CategoriaModule} from "../categoria/categoria.module";
 import {AutorController} from "./autor.controller";
 
 @Module(
@@ -10,6 +11,7 @@ import {AutorController} from "./autor.controller";
             AutorController
         ],
         imports:[
+            CategoriaModule,
             TypeOrmModule
                 .forFeature([
                         AutorEntity

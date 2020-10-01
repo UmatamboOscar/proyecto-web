@@ -21,20 +21,33 @@ export class LibroController{
     }
 
     @Get('administracion')
-    vista(
+    async vista(
         @Res() res,
         @Query() parametrosConsulta,
         @Session() session
-    ){
+    ) {
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
-        res.render(
-            'administracion/administracion',
-            {
-                usuario: session.usuario,
-                roles: session.roles
-            }
-        )
+        let consultaCategorias
+        try {
+            consultaCategorias = await this._categoriaService.buscarTodos()
+        } catch (error) {
+            const mensajeError = 'Error en las categorias'
+            res.redirect('/crear?error=' + mensajeError)
+        }
+        if(consultaCategorias) {
+            res.render(
+                'administracion/administracion',
+                {
+                    usuario: session.usuario,
+                    roles: session.roles,
+                    categorias: consultaCategorias
+                }
+            )
+        }else{
+            const mensajeError = 'Error categorias'
+            res.redirect('/crear?error=' + mensajeError)
+        }
     }
 
     @Get('menu')
@@ -47,6 +60,7 @@ export class LibroController{
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta
         let busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
+        let consultaCategorias = await this._categoriaService.buscarTodos()
         try {
             resultadoConsulta = await this._libroService.buscarTodos();
         } catch (error) {
@@ -60,7 +74,8 @@ export class LibroController{
                         libros: resultadoConsulta,
                         parametrosConsulta: parametrosConsulta,
                         usuario: session.usuario,
-                        roles: session.roles
+                        roles: session.roles,
+                        categorias: consultaCategorias
                     }
                 )
             } else {
