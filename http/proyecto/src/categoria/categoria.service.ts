@@ -18,4 +18,16 @@ export  class CategoriaService {
     buscarTodos() {
         return this.repositorio.find() // promesa
     }
+
+    categorias(textoDeConsulta:string){
+        const consulta: FindManyOptions<CategoriaEntity> = {
+            where: [
+                {
+                    categorias: textoDeConsulta
+                }
+            ]
+        }
+        return this.repositorio.find(consulta);
+    }
+
 }

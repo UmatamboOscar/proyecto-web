@@ -23,10 +23,10 @@ constructor(
             const consulta: FindManyOptions<LibroEntity> = {
                 where: [
                     {
-                        titulo: Like(`%${textoDeConsulta}%`)
+                        titulo: textoDeConsulta
                     },
                     {
-                        ISBN: Like(`%${textoDeConsulta}%`)
+                        ISBN: textoDeConsulta
                     }
                 ]
             }
