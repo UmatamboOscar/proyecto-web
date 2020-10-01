@@ -62,15 +62,28 @@ export class AppController {
         }
     }
 
+
+
     @Get('registro')
-    registro(
+    async registro(
         @Res() res,
-        @Query() parametrosConsulta
+        @Query() parametrosConsulta,
+        @Session() session
     ) {
-        res.render(
+        let resultadoConsulta2
+        try {
+            resultadoConsulta2 = await this._categoriasService.buscarTodos();
+        } catch (error) {
+            throw  new InternalServerErrorException('Error encontrando categorias')
+        }
+        if (resultadoConsulta2){
+            res.render(
             'login/registro',
             {
+                categorias: resultadoConsulta2,
                 error: parametrosConsulta.error,
+                usuario: session.usuario,
+                roles: session.roles,
                 nombre: parametrosConsulta.nombre,
                 apellido: parametrosConsulta.apellido,
                 cedula: parametrosConsulta.cedula,
@@ -79,20 +92,39 @@ export class AppController {
                 domicilio: parametrosConsulta.domicilio,
             }
         )
-    }
+} else {
+    throw new NotFoundException('No se encontraron libros')
+}
+
+}
 
     @Get('login')
-    login(
+    async login(
         @Res() res,
-        @Query() parametrosConsulta
+        @Query() parametrosConsulta,
+        @Session() session
     ) {
-        res.render(
-            'login/login',
-            {
-                error: parametrosConsulta.error,
+        let resultadoConsulta2
+        try {
+            resultadoConsulta2 = await this._categoriasService.buscarTodos();
+        } catch (error) {
+            throw  new InternalServerErrorException('Error encontrando categorias')
+        }
+            if (resultadoConsulta2){
+                    res.render(
+                        'login/login',
+                        {
+                            categorias: resultadoConsulta2,
+                            error: parametrosConsulta.error,
+                            usuario: session.usuario,
+                            roles: session.roles
+                        }
+                    )
+                } else {
+                    throw new NotFoundException('No se encontraron libros')
+                }
             }
-        )
-    }
+
 
     @Get('logout')
     logout(
