@@ -1,9 +1,20 @@
-import {Controller, Get, Query, Req, Res, Session} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    InternalServerErrorException,
+    NotFoundException,
+    Query,
+    Req,
+    Res,
+    Session
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import {LibroService} from "./libro/libro.service";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService,
+              private readonly _libroService: LibroService) {}
 
   @Get()
   getHello(): string {
@@ -11,12 +22,31 @@ export class AppController {
   }
 
   @Get('inicio')
-  inicio(
+  async inicio(
       @Res() res,
+      @Query() parametrosConsulta,
+      @Session() session
   ){
-    res.render(
-        'inicio/inicio'
-    )
+      let resultadoConsulta
+      try {
+          resultadoConsulta = await this._libroService.buscarTodos();
+          console.log(resultadoConsulta);
+      } catch (error) {
+          throw  new InternalServerErrorException('Error encontrando libro')
+      }
+      if (resultadoConsulta) {
+          res.render(
+              'inicio/inicio',
+              {
+                  libros: resultadoConsulta,
+                  parametrosConsulta: parametrosConsulta,
+                  usuario: session.usuario,
+                  roles: session.roles
+              }
+          )
+      } else {
+          throw new NotFoundException('No se encontraron departamentos')
+      }
   }
 
   @Get('registro')

@@ -85,14 +85,15 @@ export class UsuarioController {
             if (rolUsuarioCreado) {
                 session.usuario = usuarioCreado.nombre
                 session.roles = [rolEncontrado.rol]
-                res.render(
+                res.redirect('/inicio')
+                /*res.render(
                     'inicio/inicio',
                     {
                         mensaje: 'Usuario registrado correctamente',
                         usuario: session.usuario,
                         roles: session.roles
                     }
-                )
+                )*/
             } else {
                 const mensajeError = 'Datos Inválidos'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
@@ -136,13 +137,15 @@ export class UsuarioController {
                 // }
                 session.usuario = busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido
                 session.roles = [busquedaUsuario[0].rol]
+                res.redirect('/inicio')
+/*
                 res.render(
                     'inicio/inicio',
                     {
                         usuario: session.usuario,
                         roles: session.roles
                     }
-                )
+                )*/
             }else{
                 const mensajeError = 'Usuario o contraseña incorrecta'
                 res.redirect('/login?error=' + mensajeError)
