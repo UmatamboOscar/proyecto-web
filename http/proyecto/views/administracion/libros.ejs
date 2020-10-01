@@ -1,0 +1,42 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+<%- include('../componentes/nav-bar')%>
+<div class="row" style="margin-left: 30px">
+    <div id="divPadre">
+        <div id="divHijo">
+            <form action="/libro/crear">
+                <button type="submit"> Crear un nuevo libro</button>
+            </form>
+        </div>
+        <div class="centerTable">
+            <table>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Título</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                </tr>
+                <% libros.forEach( (objeto)=>{ %>
+                    <tr>
+                        <td><%= objeto.ISBN%></td>
+                        <td><%= objeto.titulo%></td>
+                        <td><%= objeto.stock%></td>
+                        <td>$<%= objeto.precio%></td>
+                        <td>
+                            <a href="/libro/editar/<%=objeto.id%>">
+                                <button>EDITAR</button>
+                            </a>
+                            <form action="/libro/eliminar/<%= objeto.id%>"
+                                  method="POST"
+                            >
+                                <button type="submit">ELIMINAR</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } ) %>
+            </table>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>

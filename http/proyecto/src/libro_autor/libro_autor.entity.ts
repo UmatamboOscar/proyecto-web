@@ -12,6 +12,13 @@ export class LibroAutorEntity{
     })
     id: number;
 
+    @Column({
+        name: 'idLibro',
+        type: 'int',
+        nullable: false
+    })
+    idLibro: number;
+
     @ManyToOne(
         type=>LibroEntity,
         libro=> libro.autores

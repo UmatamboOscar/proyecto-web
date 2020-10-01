@@ -8,29 +8,28 @@ export  class LibroService {
 constructor(
     @InjectRepository(LibroEntity)
     private repositorio: Repository<LibroEntity>
-) {
-}
-crearNuevoLibro(libro:LibroEntity){
-    return this.repositorio.save(libro);
-}
+    ) {
+    }
+    crearNuevoLibro(libro:LibroEntity){
+        return this.repositorio.save(libro);
+    }
     buscarUno(id: number) {
         return this.repositorio.findOne(id) // promesa
     }
     buscarTodos() {
-
         return this.repositorio.find() // promesa
     }
-        consultarLibros(textoDeConsulta?: string) {
+    consultarLibros(textoDeConsulta?: string) {
             const consulta: FindManyOptions<LibroEntity> = {
                 where: [
                     {
-                        titulo: Like(`%${textoDeConsulta}%`)
+                        titulo: textoDeConsulta
                     },
                     {
-                        ISBN: Like(`%${textoDeConsulta}%`)
+                        ISBN: textoDeConsulta
                     }
                 ]
             }
             return this.repositorio.find(consulta) // promesa
-        }
+    }
 }
