@@ -1,0 +1,36 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+<%- include('../componentes/nav-bar')%>
+<div class="row" style="margin-left: 30px">
+    <div id="divPadre">
+        <div id="divHijo">
+            <form action="/categoria/crear">
+                <button type="submit"> Crear una nueva categoria</button>
+            </form>
+        </div>
+        <div class="centerTable">
+            <table>
+                <tr>
+                    <th>NOMBRE</th>
+                </tr>
+                <% categorias.forEach( (objeto)=>{ %>
+                    <tr>
+                        <td><%= objeto.nombre%></td>
+                        <td>
+                            <a href="/categoria/editar/<%=objeto.id%>">
+                                <button>EDITAR</button>
+                            </a>
+                            <form action="/categoria/eliminar/<%= objeto.id%>"
+                                  method="POST"
+                            >
+                                <button type="submit">ELIMINAR</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } ) %>
+            </table>
+        </div>
+    </div>
+</div>
+<br/>
+<div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>

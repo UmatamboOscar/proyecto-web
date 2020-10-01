@@ -71,7 +71,6 @@ export class AppController {
           throw new NotFoundException('No se encontraron libros')
       }
 */
-
   }
 
   @Get('registro')
@@ -93,7 +92,7 @@ export class AppController {
     )
   }
 
-    @Get('login')
+  @Get('login')
     login(
         @Res() res,
         @Query() parametrosConsulta
@@ -104,9 +103,9 @@ export class AppController {
                 error: parametrosConsulta.error,
             }
         )
-    }
+  }
 
-    @Get('logout')
+  @Get('logout')
     logout(
         @Session() session,
         @Res() response,
@@ -116,6 +115,38 @@ export class AppController {
         session.roles = undefined;
         request.session.destroy();
         return response.redirect('inicio')
-    }
+  }
+
+  @Get('libros')
+  async libros(
+      @Res() res,
+      @Query() parametrosConsulta,
+      @Session() session
+  ) {
+      session.usuario = parametrosConsulta.usuario
+      session.roles = [parametrosConsulta.rol]
+      let resultadoConsulta
+      let busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
+      try {
+          resultadoConsulta = await this._libroService.buscarTodos();
+      } catch (error) {
+          throw  new InternalServerErrorException('Error encontrando libro')
+      }
+      if (resultadoConsulta) {
+          if (busqueda) {
+              res.render(
+                  'administracion/libros',
+                  {
+                      libros: resultadoConsulta,
+                      parametrosConsulta: parametrosConsulta,
+                      usuario: session.usuario,
+                      roles: session.roles
+                  }
+              )
+          } else {
+              throw new NotFoundException('No se encontraron libros')
+          }
+      }
+  }
 
 }

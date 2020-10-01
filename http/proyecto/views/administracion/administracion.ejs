@@ -1,0 +1,25 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+<%- include('../componentes/nav-bar')%>
+<div class="row" style="margin-left: 30px">
+    <div class="centerTable"></div>
+    <talbe>
+        <tr>
+            <td>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/libro/menu?usuario=<%=usuario%>&rol=<%=roles[0]%>" role="button">LIBROS</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/autor/menu?usuario=<%=usuario%>&rol=<%=roles[0]%>" role="button">AUTORES</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/categoria/menu?usuario=<%=usuario%>&rol=<%=roles[0]%>" role="button">CATEGORIAS</a>
+            </td>
+        </tr>
+    </talbe>
+</div>
+<br/>
+<div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>
