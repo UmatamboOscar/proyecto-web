@@ -10,7 +10,6 @@ import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 import {RolService} from "../rol/rol.service";
 import {RolEntity} from "../rol/rol.entity";
 import {UsuarioEntity} from "./usuario.entity";
-import {getRepository} from "typeorm";
 
 @Controller('usuario')
 
@@ -137,9 +136,8 @@ export class UsuarioController {
                 // }
                 session.usuario = busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido
                 session.roles = [busquedaUsuario[0].rol]
-                res.redirect('/inicio')
-/*
-                res.render(
+                res.redirect('/inicio?usuario='+busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido+'&rol='+busquedaUsuario[0].rol)
+ /*               res.render(
                     'inicio/inicio',
                     {
                         usuario: session.usuario,
