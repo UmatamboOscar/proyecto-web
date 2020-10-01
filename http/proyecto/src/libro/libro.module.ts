@@ -2,10 +2,13 @@ import {LibroEntity} from "./libro.entity";
 import {Module} from "@nestjs/common";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {LibroService} from "./libro.service";
+import {LibroController} from "./libro.controller";
 
 @Module(
     {
-        controllers:[],
+        controllers:[
+            LibroController
+        ],
         imports:[
             TypeOrmModule
                 .forFeature([

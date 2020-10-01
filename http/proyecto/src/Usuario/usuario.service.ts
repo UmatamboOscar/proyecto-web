@@ -17,6 +17,18 @@ export class UsuarioService{
         return this.repositorio.save(nuevoUsuario) //promesas
     }
 
+    buscarPorCorreo(correo:string){
+        const consulta: FindManyOptions<UsuarioEntity>= {
+            relations: ['roles'],
+            where: [
+                {
+                    correo: Like(`%${correo}`)
+                }
+            ]
+        }
+        return this.repositorio.find(consulta)
+    }
+
     buscarTodos(textoConsulta?:string){
         /*let busquedaEjemplo : FindManyOptions<UsuarioEntity>
         busquedaEjemplo={

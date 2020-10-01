@@ -14,7 +14,9 @@ import {RolUsuarioService} from "./rol_usuario.service";
                     'default' //Nombre cadena de conexion
                 )
         ],
-        providers:[RolUsuarioService],
+        providers:[
+            RolUsuarioService
+        ],
         exports:[
             RolUsuarioService
         ]

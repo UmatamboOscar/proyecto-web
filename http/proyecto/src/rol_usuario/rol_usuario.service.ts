@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {FindManyOptions, Like, Repository} from "typeorm";
 import {RolUsuarioEntity} from "./rol_usuario.entity";
 
 @Injectable()
@@ -10,7 +10,30 @@ export  class RolUsuarioService {
         private repositorio: Repository<RolUsuarioEntity>
     ) {
     }
-    crearNuevoRolUsuario(autor:RolUsuarioEntity){
-        return this.repositorio.save(autor);
+
+    crearNuevoRolUsuario(rolUsuario: RolUsuarioEntity){
+        return this.repositorio.save(rolUsuario);
     }
+
+    // buscarPorIdUsuario(id:number){
+    //     const consulta: FindManyOptions<RolUsuarioEntity>= {
+    //         where: [
+    //             {
+    //                 id: Like(`%${id}%`)
+    //             }
+    //
+    //         ]
+    //     }
+    //     return this.repositorio.find(consulta)
+    // }
+
+    buscarPorIdUsuario(id:number){
+        return this.repositorio.findOne(id)
+    }
+
+    getRepository(){
+        return this.repositorio
+    }
+
+
 }

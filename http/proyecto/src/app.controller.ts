@@ -1,9 +1,20 @@
-import {Controller, Get, Res} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    InternalServerErrorException,
+    NotFoundException,
+    Query,
+    Req,
+    Res,
+    Session
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import {LibroService} from "./libro/libro.service";
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService,
+              private readonly _libroService: LibroService) {}
 
   @Get()
   getHello(): string {
@@ -11,22 +22,75 @@ export class AppController {
   }
 
   @Get('inicio')
-  inicio(
+  async inicio(
       @Res() res,
+      @Query() parametrosConsulta,
+      @Session() session
   ){
-    res.render(
-        'inicio/inicio'
-    )
+      let resultadoConsulta
+      try {
+          resultadoConsulta = await this._libroService.buscarTodos();
+          console.log(resultadoConsulta);
+      } catch (error) {
+          throw  new InternalServerErrorException('Error encontrando libro')
+      }
+      if (resultadoConsulta) {
+          res.render(
+              'inicio/inicio',
+              {
+                  libros: resultadoConsulta,
+                  parametrosConsulta: parametrosConsulta,
+                  usuario: session.usuario,
+                  roles: session.roles
+              }
+          )
+      } else {
+          throw new NotFoundException('No se encontraron departamentos')
+      }
   }
 
   @Get('registro')
   registro(
-      @Res() res
+      @Res() res,
+      @Query() parametrosConsulta
   ){
     res.render(
-        'login/registro'
+        'login/registro',
+        {
+            error: parametrosConsulta.error,
+            nombre: parametrosConsulta.nombre,
+            apellido: parametrosConsulta.apellido,
+            cedula: parametrosConsulta.cedula,
+            correo: parametrosConsulta.correo,
+            telefono: parametrosConsulta.telefono,
+            domicilio: parametrosConsulta.domicilio,
+        }
     )
   }
 
+    @Get('login')
+    login(
+        @Res() res,
+        @Query() parametrosConsulta
+    ) {
+        res.render(
+            'login/login',
+            {
+                error: parametrosConsulta.error,
+            }
+        )
+    }
+
+    @Get('logout')
+    logout(
+        @Session() session,
+        @Res() response,
+        @Req() request
+    ){
+        session.username = undefined;
+        session.roles = undefined;
+        request.session.destroy();
+        return response.redirect('inicio')
+    }
 
 }

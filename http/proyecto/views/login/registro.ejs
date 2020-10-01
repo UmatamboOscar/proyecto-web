@@ -1,51 +1,78 @@
 <%- include('../estilos/estilos-generales')%>
 <%- include('../componentes/cabecera')%>
 <%- include('../componentes/nav-bar')%>
+<%- include('../componentes/pie-de-pantalla')%>
+
+<% let existeNombre %>
+<% let existeApellido %>
+<% let existeCedula %>
+<% let existeCorreo %>
+<% let existeTelefono %>
+<% let existeDomicilio %>
+<% let existeError %>
+
+<% if (typeof nombre !== 'undefined') {existeNombre = true}%>
+<% if (typeof apellido !== 'undefined'){existeApellido = true}%>
+<% if (typeof cedula !== 'undefined'){existeCedula = true}%>
+<% if (typeof correo !== 'undefined'){existeCorreo = true}%>
+<% if (typeof telefono !== 'undefined'){existeTelefono = true}%>
+<% if (typeof domicilio !== 'undefined'){existeDomicilio = true}%>
+<% if (typeof error !== 'undefined'){existeError = true}%>
+
+
 
 <div class="row">
     <div class="col-sm-5">
         <img src="https://image.flaticon.com/icons/png/512/833/833744.png"
-             alt="Imagen Icono de registro" width="300" height="275">
+             alt="Imagen Icono de registro" width="300" height="275" style="margin-top: 5px">
+        <% if (typeof error !== 'undefined') {%>
+            <div class="alert alert-danger">
+                <%= error%>
+            </div>
+        <%}%>
     </div>
     <div class="col-sm-7 centerTable">
         <br>
-        <table>
-            <tr>
-                <td><label for="nombreID">Nombre:    </label></td>
-                <td><input id="nombreID" type="text" name="nombre" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="apellidoID">Apellido:    </label></td>
-                <td><input id="apellidoID" type="text" name="apellido" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="cedulaID">Cédula:  </label></td>
-                <td><input id="cedulaID" type="text" name="cedula" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="correoID">Correo:  </label></td>
-                <td><input id="correoID" type="email" name="correo" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="telefonoID">Teléfono:    </label></td>
-                <td><input id="telefonoID" type="text" name="telefono" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="domicilioID">Domicilio:    </label></td>
-                <td><input id="domicilioID" type="text" name="domicilio" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="passwordID">Contraseña:    </label></td>
-                <td><input id="passwordID" type="password" name="password" value=""></td>
-            </tr>
-            <tr>
-                <td><label for="confPasswordID">Confirmar Contraseña:    </label></td>
-                <td><input id="confPasswordID" type="password" name="confPassword" value=""></td>
-            </tr>
-        </table>
-        <button>REGISTRARSE</button>
-        <button>CANCELAR</button>
+        <form action="/usuario/crearUsuario" method="POST">
+            <table>
+                <tr>
+                    <td><label for="nombreID">Nombre:    </label></td>
+                    <td><input id="nombreID" type="text" name="nombre" value="<%= existeNombre ? nombre : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="apellidoID">Apellido:    </label></td>
+                    <td><input id="apellidoID" type="text" name="apellido" value="<%= existeApellido ? apellido : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="cedulaID">Cédula:  </label></td>
+                    <td><input id="cedulaID" type="text" name="cedula" value="<%= existeCedula ? cedula : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="correoID">Correo:  </label></td>
+                    <td><input id="correoID" type="email" name="correo" value="<%= existeCorreo ? correo : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="telefonoID">Teléfono:    </label></td>
+                    <td><input id="telefonoID" type="text" name="telefono" value="<%= existeTelefono ? telefono : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="domicilioID">Domicilio:    </label></td>
+                    <td><input id="domicilioID" type="text" name="domicilio" value="<%= existeDomicilio ? domicilio : '' %>"></td>
+                </tr>
+                <tr>
+                    <td><label for="passwordID">Contraseña:    </label></td>
+                    <td><input id="passwordID" type="password" name="password" value=""></td>
+                </tr>
+                <tr>
+                    <td><label for="confPasswordID">Confirmar Contraseña:    </label></td>
+                    <td><input id="confPasswordID" type="password" name="confPassword" value=""></td>
+                </tr>
+            </table>
+            <button type="submit">REGISTRARSE</button>
+            <button type="reset">CANCELAR</button>
+        </form>
     </div>
 </div>
 
-<%- include('../componentes/pie-de-pantalla')%>
+
+

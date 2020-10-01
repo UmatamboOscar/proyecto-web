@@ -1,15 +1,24 @@
 <%- include('../estilos/estilos-generales')%>
 
+<% let estaLogueado%>
+
+<% if ( typeof usuario !== 'undefined') { estaLogueado = true}%>
+
     <div class="row">
         <div class="col-sm-2">
             <img src="https://lamenteesmaravillosa.com/wp-content/uploads/2016/01/libro-abierto.jpg"
-                 alt="Imagen libro de cabecera" width="200" height="125">
+                 alt="Imagen libro de cabecera" width="200" height="125" >
         </div>
         <div class="col-sm-8" style="background-color: #ffdf7e">
             <h1 id="Titulo">Librería Online</h1>
         </div>
         <div class="col-sm-2" style="background-color: #ffdf7e">
-        <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/login" role="button">LOGIN</a><br/>
-        <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="registro" role="button">REGISTRARSE</a>
+            <% if (estaLogueado) {%>
+                <h4 style="text-align: left"> <%= usuario %></h4>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/logout" role="button">LOGOUT</a><br/>
+            <%}else{%>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="/login" role="button">LOGIN</a><br/>
+                <a class="btn btn-outline-warning btn-lg" style="background-color: chocolate" href="registro" role="button">REGISTRARSE</a>
+            <%}%>
         </div>
     </div>
