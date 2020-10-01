@@ -19,7 +19,9 @@ constructor(
     buscarTodos() {
         return this.repositorio.find() // promesa
     }
+
     consultarLibros(textoDeConsulta?: string) {
+        if(textoDeConsulta !== undefined) {
             const consulta: FindManyOptions<LibroEntity> = {
                 where: [
                     {
@@ -30,6 +32,9 @@ constructor(
                     }
                 ]
             }
-            return this.repositorio.find(consulta) // promesa
+                return this.repositorio.find(consulta) // promesa
+            }else{
+                return this.repositorio.find()
+            }
     }
 }
