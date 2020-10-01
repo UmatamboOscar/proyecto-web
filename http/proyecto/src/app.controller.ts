@@ -27,6 +27,8 @@ export class AppController {
       @Query() parametrosConsulta,
       @Session() session
   ){
+      session.usuario = parametrosConsulta.usuario
+      session.roles = [parametrosConsulta.rol]
       let resultadoConsulta
       try {
           resultadoConsulta = await this._libroService.buscarTodos();
