@@ -10,6 +10,11 @@ export  class AutorService {
         private repositorio: Repository<AutorEntity>
     ) {
     }
+
+    buscarTodos(){
+        return this.repositorio.find();
+    }
+
     crearNuevoAutor(autor:AutorEntity){
         return this.repositorio.save(autor);
     }
