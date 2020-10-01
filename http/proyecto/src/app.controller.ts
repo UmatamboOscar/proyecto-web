@@ -35,32 +35,30 @@ export class AppController {
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta
         let resultadoConsulta2
-        const busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
+        let busqueda
         try {
-            resultadoConsulta = await this._libroService.buscarTodos();
             resultadoConsulta2 = await this._categoriasService.buscarTodos();
+            busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda);
         } catch (error) {
             throw  new InternalServerErrorException('Error encontrando libro')
         }
-        if (resultadoConsulta) {
-            if (resultadoConsulta2){
+        if (resultadoConsulta2) {
             if (busqueda) {
                 res.render(
                     'inicio/inicio',
                     {
                         categorias: resultadoConsulta2,
-                        libros: resultadoConsulta,
+                        libros: busqueda,
                         parametrosConsulta: parametrosConsulta,
                         usuario: session.usuario,
                         roles: session.roles
-                    }
-                )
-            } else {
-                throw new NotFoundException('No se encontraron libros')
+                    })
+                } else {
+                    throw new NotFoundException('No se encontraron libros')
+                }
             }
         }
-        }
-    }
+
 
 
 
