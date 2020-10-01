@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: chocolate">
     <a class="navbar-brand" href="inicio">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,22 +7,19 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Autores<span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Categorias
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Accion</a>
-                    <a class="dropdown-item" href="#">Suspenso</a>
-                    <a class="dropdown-item" href="#">Drama</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/inicio">Accion</a>
+                    <a class="dropdown-item" href="/inicio">Suspenso</a>
+                    <a class="dropdown-item" href="/inicio">Drama</a>
                 </div>
             </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0" >
+        <form class="form-inline my-2 my-lg-0" action="/inicio" >
             <input class="form-control mr-sm-2" type="search" name="busqueda" placeholder="busqueda" aria-label="busqueda">
             <button class="btn btn-outline-success my-2 my-sm-0" style="background-color: #ffdf7e" type="submit">Buscar</button>
         </form>

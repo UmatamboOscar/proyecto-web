@@ -17,22 +17,20 @@ crearNuevoLibro(libro:LibroEntity){
         return this.repositorio.findOne(id) // promesa
     }
     buscarTodos() {
-    /*    buscarTodos(textoDeConsulta?: string) {
-        const consulta: FindManyOptions<LibroEntity> = {
-            where: [
-                {
-                    titulo: Like(`%${textoDeConsulta}%`)
-                },
-                {
-                    autores: Like(`%${textoDeConsulta}%`)
-                },
-                {
-                    precio: Like(`%${textoDeConsulta}%`)
-                }
-            ]
-        }
-        return this.repositorio.find(consulta) // promesa*/
+
         return this.repositorio.find() // promesa
     }
-
+        consultarLibros(textoDeConsulta?: string) {
+            const consulta: FindManyOptions<LibroEntity> = {
+                where: [
+                    {
+                        titulo: Like(`%${textoDeConsulta}%`)
+                    },
+                    {
+                        ISBN: Like(`%${textoDeConsulta}%`)
+                    }
+                ]
+            }
+            return this.repositorio.find(consulta) // promesa
+        }
 }

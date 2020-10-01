@@ -30,13 +30,14 @@ export class AppController {
       session.usuario = parametrosConsulta.usuario
       session.roles = [parametrosConsulta.rol]
       let resultadoConsulta
+      let busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
       try {
           resultadoConsulta = await this._libroService.buscarTodos();
-          console.log(resultadoConsulta);
       } catch (error) {
           throw  new InternalServerErrorException('Error encontrando libro')
       }
       if (resultadoConsulta) {
+          if(busqueda){
           res.render(
               'inicio/inicio',
               {
@@ -47,8 +48,30 @@ export class AppController {
               }
           )
       } else {
-          throw new NotFoundException('No se encontraron departamentos')
+          throw new NotFoundException('No se encontraron libros')
       }
+      }
+/*
+      try {
+          busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda);
+      } catch (error) {
+          throw  new InternalServerErrorException('Error encontrando libro')
+      }
+      if (busqueda) {
+          res.render(
+              'inicio/inicio',
+              {
+                  libros: resultadoConsulta,
+                  parametrosConsulta: parametrosConsulta,
+                  usuario: session.usuario,
+                  roles: session.roles
+              }
+          )
+      } else {
+          throw new NotFoundException('No se encontraron libros')
+      }
+*/
+
   }
 
   @Get('registro')
