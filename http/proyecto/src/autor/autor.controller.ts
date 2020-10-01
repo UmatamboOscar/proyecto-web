@@ -7,12 +7,14 @@ import {
         Res, Session
 } from "@nestjs/common";
 import {AutorService} from "./autor.service";
+import {CategoriaService} from "../categoria/categoria.service";
 
 
 @Controller('autor')
 export class AutorController{
     constructor(
-        private readonly _autorService: AutorService
+        private readonly _autorService: AutorService,
+        private readonly _categoriaService: CategoriaService
     ) {
     }
 
@@ -25,6 +27,7 @@ export class AutorController{
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
         let busqueda = await this._autorService.buscarTodos()
+        let consultaCategoria = await this._categoriaService.buscarTodos()
         if (busqueda) {
             res.render(
                 'administracion/autores',
@@ -32,7 +35,8 @@ export class AutorController{
                     autores: busqueda,
                     parametrosConsulta: parametrosConsulta,
                     usuario: session.usuario,
-                    roles: session.roles
+                    roles: session.roles,
+                    categorias: consultaCategoria
                 }
             )
         } else {
