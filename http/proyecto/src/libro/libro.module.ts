@@ -3,6 +3,8 @@ import {Module} from "@nestjs/common";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {LibroService} from "./libro.service";
 import {LibroController} from "./libro.controller";
+import {AutorModule} from "../autor/autor.module";
+import {CategoriaModule} from "../categoria/categoria.module";
 
 @Module(
     {
@@ -10,6 +12,8 @@ import {LibroController} from "./libro.controller";
             LibroController
         ],
         imports:[
+            AutorModule,
+            CategoriaModule,
             TypeOrmModule
                 .forFeature([
                         LibroEntity

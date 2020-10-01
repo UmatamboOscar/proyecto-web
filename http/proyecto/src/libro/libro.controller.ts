@@ -7,12 +7,16 @@ import {
     Res, Session
 } from "@nestjs/common";
 import {LibroService} from "./libro.service";
+import {CategoriaService} from "../categoria/categoria.service";
+import {AutorService} from "../autor/autor.service";
 
 
 @Controller('libro')
 export class LibroController{
     constructor(
-        private readonly _libroService: LibroService
+        private readonly _libroService: LibroService,
+        private readonly _categoriaService: CategoriaService,
+        private readonly _autorService: AutorService
     ) {
     }
 
@@ -65,35 +69,36 @@ export class LibroController{
         }
     }
 
-
-
-/*
-
-
-    @Get('inicio')
-    async inicio(
+    @Get('crear')
+    async crearLibro(
         @Res() res,
-        @Query() parametrosConsulta
+        @Query() parametrosConsulta,
+        @Session() session
     ) {
-            let resultadoConsulta
-            try {
-                resultadoConsulta = await this._libroService.buscarTodos(parametrosConsulta.busqueda);
-                console.log(resultadoConsulta);
-            } catch (error) {
-                throw  new InternalServerErrorException('Error encontrando libro')
-            }
-            if (resultadoConsulta) {
-                res.render(
-                    'inicio/inicio',
-                    {
-                        libros: resultadoConsulta,
-                        parametrosConsulta: parametrosConsulta,
-                    }
-                )
-            } else {
-                throw new NotFoundException('No se encontraron departamentos')
-            }
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
+        let consultaAutores
+        let consultaCategorias
+        try {
+            consultaAutores = await this._autorService.buscarTodos()
+            consultaCategorias = await this._categoriaService.buscarTodos()
+        }catch (error) {
+            const mensajeError = 'Error buscando Autores y Categorias'
+            res.redirect('/crear?error=' + mensajeError)
+        }
+        if( consultaCategorias && consultaAutores){
+            res.render(
+                'administracion/crearLibro',
+                {
+                    usuario: session.usuario,
+                    roles: session.roles,
+                    autores: consultaAutores,
+                    categorias: consultaCategorias
+                }
+            )
+        }else{
+            const mensajeError = 'Error en el if'
+            res.redirect('/crear?error=' + mensajeError)
+        }
     }
-
-*/
 }
