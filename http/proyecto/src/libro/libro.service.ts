@@ -2,6 +2,7 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {LibroEntity} from "./libro.entity";
 import {FindManyOptions, Like, Repository} from "typeorm";
+import {CategoriaEntity} from "../categoria/categoria.entity";
 
 @Injectable()
 export  class LibroService {
@@ -20,6 +21,14 @@ constructor(
         return this.repositorio.find() // promesa
     }
 
+    editarUno(libroEditado: LibroEntity){
+        return this.repositorio.save(libroEditado);
+    }
+    eliminarUno(id:number){
+    return this.repositorio.delete(id)
+    }
+
+
     consultarLibros(textoDeConsulta?: string) {
         if(textoDeConsulta !== undefined) {
             const consulta: FindManyOptions<LibroEntity> = {
@@ -37,4 +46,6 @@ constructor(
                 return this.repositorio.find()
             }
     }
+
+
 }

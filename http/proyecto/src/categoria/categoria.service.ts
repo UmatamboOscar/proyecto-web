@@ -43,6 +43,7 @@ export  class CategoriaService {
 
     buscarCategoriaPorNombre(nombre: string){
         const consulta: FindManyOptions<CategoriaEntity> = {
+            relations: ['libros'],
             where: [
                 {
                     nombre: nombre
@@ -51,5 +52,7 @@ export  class CategoriaService {
         }
         return this.repositorio.find(consulta)
     }
+
+
 
 }

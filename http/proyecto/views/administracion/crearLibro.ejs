@@ -1,6 +1,32 @@
 <%- include('../estilos/estilos-generales')%>
 <%- include('../componentes/cabecera')%>
 <%- include('../componentes/nav-bar')%>
+
+<% const existeLibro = typeof libro != 'undefined' %>
+
+<% let existeISBN = typeof ISBN !== 'undefined' %>
+<% let existeTitulo = typeof titulo !== 'undefined' %>
+<% let existeStock = typeof stock !== 'undefined' %>
+<% let existeDescripcion = typeof descripcion !== 'undefined' %>
+<% let existePrecio = typeof precio !== 'undefined' %>
+<% let existeImagen = typeof imagen !== 'undefined' %>
+
+<%if(existeLibro) {%>
+    <% existeISBN = true %>
+    <% existeTitulo = true %>
+    <% existeStock = true %>
+    <% existeDescripcion = true %>
+    <% existePrecio = true %>
+    <% existeImagen = true %>
+    <% ISBN = libro.ISBN%>
+    <% titulo = libro.titulo%>
+    <% stock = libro.stock%>
+    <% descripcion = libro.descripcion%>
+    <% precio = libro.precio%>
+    <% imagen = libro.imagen%>
+<%}%>
+<h1> <%= existeLibro ? 'EDITAR' : 'CREAR NUEVO'%> LIBRO</h1>
+
 <div class="row" style="margin-left: 30px">
     <div id="divPadre">
         <div id="divHijo">
@@ -14,32 +40,32 @@
             </form>
         </div>
         <div id="divHijo" class="centerTable">
-            <form action="/libro/crear"
+            <form action="<%=existeLibro ? '/libro/editar/' + libro.id : '/libro/crear' %>"
                   method="POST">
                 <table>
                     <tr>
                         <td><label for="ISBNID">ISBN:    </label></td>
-                        <td><input id="ISBNID" type="text" name="ISBN" value=""></td>
+                        <td><input id="ISBNID" type="text" name="ISBN" value="<%=existeISBN ? ISBN:''%>"></td>
                     </tr>
                     <tr>
                         <td><label for="tituloID">Título:    </label></td>
-                        <td><input id="tituloID" type="text" name="titulo"></td>
+                        <td><input id="tituloID" type="text" name="titulo" value="<%=existeTitulo ? titulo:''%>"></td>
                     </tr>
                     <tr>
                         <td><label for="stockID">Stock:  </label></td>
-                        <td><input id="stockID" type="text" name="stock"></td>
+                        <td><input id="stockID" type="text" name="stock" value="<%=existeStock ? stock:''%>"></td>
                     </tr>
                     <tr>
                         <td><label for="preciolID">Precio:  </label></td>
-                        <td><input id="preciolID" type="text" name="precio"></td>
+                        <td><input id="preciolID" type="text" name="precio" value="<%=existePrecio ? precio:''%>"></td>
                     </tr>
                     <tr>
-                        <td><label for="imagenID">imagen:    </label></td>
-                        <td><input id="imagenID" type="text" name="imagen"></td>
+                        <td><label for="imagenID">Imagen:    </label></td>
+                        <td><input id="imagenID" type="text" name="imagen" value="<%=existeImagen ? imagen:''%>"></td>
                         <td>Ingresar el link a la imagen del libro</td>
                     </tr>
                     <tr>
-                        <td><label for="autorID">autore:    </label></td>
+                        <td><label for="autorID">Autores:    </label></td>
                         <td>
                             <select class="form-control" id="autorID" name="autor">
                             <% autores.forEach( (objeto)=>{%>
@@ -60,13 +86,16 @@
                     </tr>
                     <tr>
                         <td><label for="descripciónID">descripción:    </label></td>
-                        <td><input name="descripcion" id="descripciónID" type="text"></td>
+                        <td><input name="descripcion" id="descripciónID" type="text" value="<%=existeDescripcion ? descripcion:''%>"></td>
                     </tr>
                 </table>
                 <div id="divHijo">
                     <br>
-                    <button type="submit">CREAR</button>
+                    <button type="submit"><%=existeLibro ? "EDITAR" : "CREAR" %></button>
                     <button type="reset">RESETEAR</button>
+                    <a href="libros">
+                        <button type="button">CANCELAR</button>
+                    </a>
                 </div>
             </form>
         </div>
