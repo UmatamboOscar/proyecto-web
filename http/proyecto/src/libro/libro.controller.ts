@@ -134,9 +134,13 @@ export class LibroController{
 
     @Post('crear')
     async crearDepartamento(
+        @Query() parametrosConsulta,
         @Body() parametrosCuerpo,
-        @Res() res
+        @Res() res,
+        @Session() session
     ) {
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
         const libro = new LibroCreateDto()
         libro.ISBN = parametrosCuerpo.ISBN
         libro.titulo = parametrosCuerpo.titulo
@@ -156,7 +160,7 @@ export class LibroController{
                 buscarCategoria = await this._categoriaService.buscarCategoriaPorNombre(parametrosCuerpo.categoria)
             }else{
                 console.log('datos invalidos')
-                res.redirect('/inicio')
+                res.redirect('/inicio?usuario='+session.usuario+'&rol='+parametrosConsulta.rol)
             }
         }catch (error) {
             console.log('algo mal en los await')
@@ -184,13 +188,13 @@ export class LibroController{
             detalleLibroCategoriaCreado = await  this._libroCategoriaService.crearNuevoLibroCategoria(libroCategoria)
         }else{
             console.log('error en detalles')
-            res.redirect('/inicio')
+            res.redirect('/inicio?usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
         }
         if(detalleLibroCategoriaCreado && detalleLibroAutorCreado){
             console.log(detalleLibroAutorCreado)
             console.log(detalleLibroCategoriaCreado)
             console.log('todo chevere')
-            res.redirect('/inicio')
+            res.redirect('/inicio?usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
         }
     }
 
@@ -228,7 +232,6 @@ export class LibroController{
                 }
             )
         }else{
-            const mensajeError = 'Error en el if'
             return res.redirect('/libro/menu?mensaje= libro no encontrado')
         }
     }
@@ -238,6 +241,7 @@ export class LibroController{
         @Param() parametrosRuta,
         @Body() parametrosCuerpo,
         @Res() res,
+        @Query() parametrosConsulta
     ) {
         const libro = new LibroUpdateDto()
         libro.ISBN = parametrosCuerpo.ISBN
@@ -261,7 +265,7 @@ export class LibroController{
                 } as LibroEntity
                 try {
                     await this._libroService.editarUno(libroEditado);
-                    return res.redirect('/libro/menu?mensaje=Libro editado');
+                    return res.redirect('/inicio?usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol);
                 }catch (error) {
                     console.error(error);
                     return res.redirect('/libro/menu?mensaje=Error editando libro');
@@ -281,12 +285,13 @@ export class LibroController{
     @Post('eliminar/:id')
     async eliminarCategoria(
         @Param() parametrosRuta,
-        @Res() res
+        @Res() res,
+        @Query() parametrosConsulta
     ) {
         try {
             const id = Number(parametrosRuta.id);
             await this._libroService.eliminarUno(id);
-            return res.redirect('/libro/menu?mensaje=Libro eliminado')
+            return res.redirect('/libro/menu?mensaje=Libro eliminado&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
         } catch (error) {
             console.log(error)
             return res.redirect('/libro/menu?eror=Error eliminando libro')
