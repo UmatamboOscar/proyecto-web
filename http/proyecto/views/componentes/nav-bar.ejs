@@ -16,11 +16,10 @@
                 <a class="nav-link dropdown-toggle" href="administracion/categorias" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Categorias
                 </a>
-
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <% categorias.forEach( (objeto)=>{ %>
                         <tr>
-                            <a class="dropdown-item" href="/inicio"><%= objeto.nombre%></a>
+                            <a class="dropdown-item" href="/inicio?busquedaCategoria=<%=objeto.nombre%>"><%= objeto.nombre%></a>
                         </tr>
                     <% } ) %>
                 </div>
