@@ -5,6 +5,8 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {UsuarioEntity} from "./usuario.entity";
 import {RolUsuarioModule} from "../rol_usuario/rol_usuario.module";
 import {RolModule} from "../rol/rol.module";
+import {CategoriaModule} from "../categoria/categoria.module";
+import {LibroModule} from "../libro/libro.module";
 
 @Module(
     {
@@ -14,6 +16,8 @@ import {RolModule} from "../rol/rol.module";
         imports:[
             RolModule,
             RolUsuarioModule,
+            CategoriaModule,
+            LibroModule,
             TypeOrmModule
                 .forFeature([
                     UsuarioEntity

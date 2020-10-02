@@ -10,6 +10,8 @@ import {RolUsuarioEntity} from "../rol_usuario/rol_usuario.entity";
 import {RolService} from "../rol/rol.service";
 import {RolEntity} from "../rol/rol.entity";
 import {UsuarioEntity} from "./usuario.entity";
+import {CategoriaService} from "../categoria/categoria.service";
+import {LibroService} from "../libro/libro.service";
 
 @Controller('usuario')
 
@@ -18,7 +20,9 @@ export class UsuarioController {
     constructor(
         private readonly _usuarioService: UsuarioService,
         private readonly _rolUsuarioService: RolUsuarioService,
-        private readonly _rolService: RolService
+        private readonly _rolService: RolService,
+        private readonly _categoriaService: CategoriaService,
+        private readonly _libroService: LibroService
     ){
     }
 
@@ -38,33 +42,39 @@ export class UsuarioController {
         usuario.password = parametrosCuerpo.password
         if(parametrosCuerpo.password == parametrosCuerpo.confPassword) {
             let usuarioCreado: UsuarioEntity
+            let consultaCategoria
+            let consultarLibros
             try {
                 const error: ValidationError[] = await validate(usuario)
+                consultaCategoria = await this._categoriaService.buscarTodos()
+                consultarLibros = await this._libroService.buscarTodos()
                 if (error.length == 0) {
                     try {
                         usuarioCreado = await this._usuarioService.crearUno(parametrosCuerpo);
                     } catch (error) {
-                        const mensajeError = 'Datos Inválidos'
+                        const mensajeError = 'Datos Inválidos1'
                         return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
                     }
                 } else {
-                    const mensajeError = 'Datos Inválidos'
+                    console.log(error)
+                    const mensajeError = 'Datos Inválidos2'
                     return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
                 }
             } catch (error) {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos3'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
             let rolEncontrado: RolEntity
+/*
             if (usuarioCreado) {
                 try {
                     rolEncontrado = await this._rolService.buscarUno(2)
                 } catch (error) {
-                    const mensajeError = 'Datos Inválidos'
+                    const mensajeError = 'Datos Inválidos 4'
                     return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
                 }
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 5'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
             let rolUsuarioCreado
@@ -78,20 +88,32 @@ export class UsuarioController {
                 rolUsuario = rolUsuario1
                 rolUsuarioCreado = await this._rolUsuarioService.crearNuevoRolUsuario(rolUsuario);
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 6'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
+        }
             if (rolUsuarioCreado) {
                 session.usuario = usuarioCreado.nombre
                 session.roles = [rolEncontrado.rol]
                 res.redirect('/inicio')
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 7'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
         }else{
             const mensajeError = 'Las Contraseñas no coinciden'
             return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
+*/
+            if(usuarioCreado){
+                session.usuario = usuarioCreado.nombre
+                session.roles = ['USUARIO']
+                res.render('inicio/inicio',{
+                    usuario:session.usuario,
+                    roles: session.roles,
+                    categorias: consultaCategoria,
+                libros: consultarLibros})
+
+            }
         }
     }
 

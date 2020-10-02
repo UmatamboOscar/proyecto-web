@@ -51,7 +51,7 @@ export class AutorController{
                 }
             )
         } else {
-            throw new NotFoundException('No se encontraron libros')
+            throw new NotFoundException('No se encontraron autores')
         }
     }
 
@@ -59,7 +59,10 @@ export class AutorController{
     vistaCrearAutor(
         @Query() parametrosConsulta,
         @Res() res,
+        @Session() session
     ) {
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
             return res.render(
                 'administracion/crearautor',
                 {
@@ -67,13 +70,16 @@ export class AutorController{
                     nombre: parametrosConsulta.nombre,
                     nacionalidad: parametrosConsulta.nacionalidad,
                     descripcion: parametrosConsulta.descripcion,
-                    imagen: parametrosConsulta.imagen
+                    imagen: parametrosConsulta.imagen,
+                    usuario: session.usuario,
+                    roles: session.roles
                 }
             )
     }
 
     @Post('crear')
     async crearAutor(
+        @Query() parametrosConsulta,
         @Body() parametrosCuerpo,
         @Res() res
     ) {
@@ -94,7 +100,7 @@ export class AutorController{
                     return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&nacionalidad=${parametrosCuerpo.nacionalidad}&descripcion=${parametrosCuerpo.descripcion}&imagen=${parametrosCuerpo.imagen}`);
                 }
                 if (respuesta) {
-                    return res.redirect('menu')
+                    return res.redirect('/autor/menu?usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
                 } else {
                     const mensajeError = 'Creando nuevo autor'
                     return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&nacionalidad=${parametrosCuerpo.nacionalidad}&descripcion=${parametrosCuerpo.descripcion}&imagen=${parametrosCuerpo.imagen}`);
@@ -117,8 +123,11 @@ export class AutorController{
     async vistaEditarAutor(
         @Query() parametrosConsulta,
         @Param() parametrosRuta,
-        @Res() res
+        @Res() res,
+        @Session() session
     ) {
+            session.usuario = parametrosConsulta.usuario
+            session.roles = [parametrosConsulta.rol]
             const id = Number(parametrosRuta.id)
             let autorEncontrado;
             try {
@@ -132,7 +141,9 @@ export class AutorController{
                     'administracion/crearautor',
                     {
                         error: parametrosConsulta.error,
-                        autor: autorEncontrado
+                        autor: autorEncontrado,
+                        usuario: session.usuario,
+                        roles: session.roles
                     }
                 )
             }else{
@@ -145,6 +156,7 @@ export class AutorController{
         @Param() parametrosRuta,
         @Body() parametrosCuerpo,
         @Res() res,
+        @Query() parametrosConsulta,
     ) {
         const autor = new AutorUpdateDto()
         autor.nombre = parametrosCuerpo.nombre;
@@ -163,7 +175,7 @@ export class AutorController{
                 } as AutorEntity
                 try {
                     await this._autorService.editarUno(autorEditado);
-                    return res.redirect('/autor/menu?mensaje=Autor editado');
+                    return res.redirect('/autor/menu?mensaje=Autor editado&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol);
                 }catch (error) {
                     console.error(error);
                     return res.redirect('/autor/menu?mensaje=Error editando autor');
@@ -183,12 +195,13 @@ export class AutorController{
     @Post('eliminar/:id')
     async eliminarAutor(
         @Param() parametrosRuta,
-        @Res() res
+        @Res() res,
+        @Query() parametrosConsulta
     ) {
         try {
             const id = Number(parametrosRuta.id);
             await this._autorService.eliminarUno(id);
-            return res.redirect('/autor/menu?mensaje=Autor eliminado')
+            return res.redirect('/autor/menu?mensaje=Autor eliminado&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
         } catch (error) {
             console.log(error)
             return res.redirect('/autor/menu?eror=Error eliminando autor')
