@@ -10,7 +10,7 @@ export  class LibroCategoriaService {
         private repositorio: Repository<LibroCategoriaEntity>
     ) {
     }
-    crearNuevoLibroCategoria(autor:LibroCategoriaEntity){
-        return this.repositorio.save(autor);
+    crearNuevoLibroCategoria(categoria:LibroCategoriaEntity){
+        return this.repositorio.save(categoria);
     }
 }

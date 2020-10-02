@@ -15,9 +15,7 @@ export class LibroCreateDto {
     ISBN: string;
 
     @IsOptional()
-    @IsAlpha()
-    @MaxLength(60)
-    @MinLength(3)
+    @IsString()
     titulo?: string;
 
     @IsOptional()
@@ -31,7 +29,7 @@ export class LibroCreateDto {
     precio: number;
 
     @IsOptional()
-    @IsAlpha()
+    @IsString()
     imagen: string;
 
     @IsOptional()

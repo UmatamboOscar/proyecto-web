@@ -45,7 +45,7 @@ export class LibroEntity{
     @Column({
         name: 'imagen',
         type: 'varchar',
-        nullable: false
+        nullable: false,
     })
     imagen: string;
 
