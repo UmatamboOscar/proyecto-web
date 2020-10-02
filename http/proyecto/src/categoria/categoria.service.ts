@@ -2,7 +2,6 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {FindManyOptions, Like, Repository} from "typeorm";
 import {CategoriaEntity} from "./categoria.entity";
-import {LibroEntity} from "../libro/libro.entity";
 
 @Injectable()
 export  class CategoriaService {
@@ -28,6 +27,17 @@ export  class CategoriaService {
             ]
         }
         return this.repositorio.find(consulta);
+    }
+
+    buscarCategoriaPorNombre(nombre: string){
+        const consulta: FindManyOptions<CategoriaEntity> = {
+            where: [
+                {
+                    nombre: nombre
+                }
+            ]
+        }
+        return this.repositorio.find(consulta)
     }
 
 }

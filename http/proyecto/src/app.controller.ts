@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     InternalServerErrorException,
@@ -33,7 +34,6 @@ export class AppController {
     ) {
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
-        let resultadoConsulta
         let resultadoConsulta2
         let busqueda
         try {

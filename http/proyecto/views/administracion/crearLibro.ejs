@@ -14,34 +14,34 @@
             </form>
         </div>
         <div id="divHijo" class="centerTable">
-            <form action=""
+            <form action="/libro/crear"
                   method="POST">
                 <table>
                     <tr>
                         <td><label for="ISBNID">ISBN:    </label></td>
-                        <td><input id="ISBNID" type="text" name="areaTotal" value=""></td>
+                        <td><input id="ISBNID" type="text" name="ISBN" value=""></td>
                     </tr>
                     <tr>
                         <td><label for="tituloID">Título:    </label></td>
-                        <td><input id="tituloID" type="text" name="numeroCuartos" value=""></td>
+                        <td><input id="tituloID" type="text" name="titulo"></td>
                     </tr>
                     <tr>
                         <td><label for="stockID">Stock:  </label></td>
-                        <td><input id="stockID" type="text" name="numeroPiso" value=""></td>
+                        <td><input id="stockID" type="text" name="stock"></td>
                     </tr>
                     <tr>
                         <td><label for="preciolID">Precio:  </label></td>
-                        <td><input id="preciolID" type="text" name="precio" value=""></td>
+                        <td><input id="preciolID" type="text" name="precio"></td>
                     </tr>
                     <tr>
                         <td><label for="imagenID">imagen:    </label></td>
-                        <td><input id="imagenID" type="text" name="ubicacion" value=""></td>
-                        <td>Porfavor ingresar el link a la imagen del libro</td>
+                        <td><input id="imagenID" type="text" name="imagen"></td>
+                        <td>Ingresar el link a la imagen del libro</td>
                     </tr>
                     <tr>
                         <td><label for="autorID">autore:    </label></td>
-                        <td style="text-align: left">
-                            <select class="form-control">
+                        <td>
+                            <select class="form-control" id="autorID" name="autor">
                             <% autores.forEach( (objeto)=>{%>
                                     <option><%=objeto.nombre%></option>
                             <% } )%>
@@ -49,9 +49,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="autorID">categoria:    </label></td>
-                        <td style="text-align: left">
-                            <select class="form-control">
+                        <td><label for="categoriaID">categoria:    </label></td>
+                        <td>
+                            <select class="form-control" id="categoriaID" name="categoria">
                                 <% categorias.forEach( (objeto)=>{%>
                                 <option><%=objeto.nombre%></option>
                                 <% } )%>
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td><label for="descripciónID">descripción:    </label></td>
-                        <td><textarea name="descripción" id="descripciónID" cols="30" rows="10"></textarea></td>
+                        <td><input name="descripcion" id="descripciónID" type="text"></td>
                     </tr>
                 </table>
                 <div id="divHijo">
