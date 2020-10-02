@@ -41,7 +41,7 @@ import {LibroCategoriaModule} from "./libro_categoria/libro_categoria.module";
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '0120saul',
+      password: 'root',
       database: 'proyectoweb',
       entities: [
           UsuarioEntity,
