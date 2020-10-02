@@ -1,13 +1,6 @@
-import {
-    IS_DECIMAL,
-    IsAlpha, IsDateString, IsDecimal, IsIdentityCard,
-    IsNotEmpty, IsNumber, IsNumberString, IsOptional,
-    IsPositive, Length,
-    MaxLength,
-    MinLength
-} from "class-validator";
+import {IsAlpha, IsOptional, MaxLength, MinLength} from "class-validator";
 
-export class AutorCreateDto{
+export class AutorUpdateDto{
 
     @IsOptional()
     @IsAlpha()
@@ -32,6 +25,5 @@ export class AutorCreateDto{
     @MaxLength(300)
     @MinLength(25)
     imagen?:string;
-
 
 }

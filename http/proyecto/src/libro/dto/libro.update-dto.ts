@@ -2,36 +2,39 @@ import {
     IS_DECIMAL,
     IsAlpha, IsDateString, IsDecimal, IsIdentityCard,
     IsNotEmpty, IsNumber, IsNumberString, IsOptional,
-    IsPositive, Length,
+    IsPositive, IsString, Length,
     MaxLength,
     MinLength
 } from "class-validator";
 
-export class AutorCreateDto{
+export class LibroUpdateDto {
+
+    @IsNotEmpty()
+    @IsNumberString()
+    ISBN: string;
 
     @IsOptional()
     @IsAlpha()
     @MaxLength(60)
     @MinLength(3)
-    nombre?:string;
+    titulo?: string;
+
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    stock?: number;
+
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    precio: number;
 
     @IsOptional()
     @IsAlpha()
-    @MaxLength(60)
-    @MinLength(3)
-    nacionalidad?:string;
+    imagen: string;
 
     @IsOptional()
-    @IsAlpha()
-    @MaxLength(300)
-    @MinLength(1)
-    descripcion?:string;
-
-    @IsOptional()
-    @IsAlpha()
-    @MaxLength(300)
-    @MinLength(25)
-    imagen?:string;
-
+    @IsString()
+    descripcion: string;
 
 }

@@ -1,12 +1,17 @@
 import {
+    BadRequestException,
+    Body,
     Controller,
     Get,
-    InternalServerErrorException,
-    NotFoundException,
+    NotFoundException, Param, Post,
     Query,
     Res, Session
 } from "@nestjs/common";
 import {CategoriaService} from "./categoria.service";
+import {validate, ValidationError} from "class-validator";
+import {CategoriaCreateDto} from "./dto/categoria.create-dto";
+import {CategoriaUpdateDto} from "./dto/categoria.update-dto";
+import {CategoriaEntity} from "./categoria.entity";
 
 
 @Controller('categoria')
@@ -24,7 +29,7 @@ export class CategoriaController{
     ) {
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
-        let busqueda = await this._categoriaService.buscarTodos()
+        const busqueda = await this._categoriaService.buscarTodos()
             if (busqueda) {
                 res.render(
                     'administracion/categorias',
@@ -39,5 +44,135 @@ export class CategoriaController{
                 throw new NotFoundException('No se encontraron libros')
             }
     }
+
+    @Get('crear') // Controlador
+    vistaCrearCategoria(
+        @Query() parametrosConsulta,
+        @Res() res,
+    ) {
+        return res.render(
+            'administracion/crearcategoria',
+            {
+                error: parametrosConsulta.error,
+                nombre: parametrosConsulta.nombre
+            }
+        )
+    }
+
+    @Post('crear')
+    async crearCategoria(
+        @Body() parametrosCuerpo,
+        @Res() res
+    ) {
+        const categoria = new CategoriaCreateDto()
+        categoria.nombre = parametrosCuerpo.nombre
+        try {
+            const error: ValidationError[] = await validate(categoria)
+            if (error.length == 0) {
+                let respuesta;
+                try {
+                    respuesta = await this._categoriaService.crearNuevaCategoria(parametrosCuerpo);
+                } catch (error) {
+                    console.error(error);
+                    const mensajeError = 'Creando nueva Categoria'
+                    return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}`);
+                }
+                if (respuesta) {
+                    return res.redirect('menu')
+                } else {
+                    const mensajeError = 'Creando nuevo Categoria'
+                    return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}`);
+                }
+            }else{
+                const mensajeError = 'DATOS INVALIDOS'
+                return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}`);
+            }
+        }catch(e){
+            console.error(e)
+            throw new BadRequestException({
+                mensaje: 'Error validando datos'
+            });
+        }
+
+    }
+
+
+    @Get('editar/:id')
+    async vistaEditarCategoria(
+        @Query() parametrosConsulta,
+        @Param() parametrosRuta,
+        @Res() res
+    ) {
+        const id = Number(parametrosRuta.id)
+        let categoriaEncontrada;
+        try {
+            categoriaEncontrada = await this._categoriaService.buscarUno(id);
+        }catch(error){
+            console.error('Error del servidor');
+            return res.redirect('/categoria/menu?mensaje=Error buscando categoria');
+        }
+        if(categoriaEncontrada){
+            return res.render(
+                'administracion/crearcategoria',
+                {
+                    error: parametrosConsulta.error,
+                    categoria: categoriaEncontrada
+                }
+            )
+        }else{
+            return res.redirect('/categoria/menu?mensaje= categoria no encontrado')
+        }
+    }
+
+    @Post('editar/:id')
+    async editarCategoria(
+        @Param() parametrosRuta,
+        @Body() parametrosCuerpo,
+        @Res() res,
+    ) {
+        const categoria = new CategoriaUpdateDto()
+        categoria.nombre = parametrosCuerpo.categoria;
+        try {
+            const error: ValidationError[] = await validate(categoria)
+            if (error.length == 0) {
+                const categoriaEditada = {
+                    id: Number(parametrosRuta.id),
+                    nombre : parametrosCuerpo.nombre
+                } as CategoriaEntity
+                try {
+                    await this._categoriaService.editarUno(categoriaEditada);
+                    return res.redirect('/categoria/menu?mensaje=Categoria editada');
+                }catch (error) {
+                    console.error(error);
+                    return res.redirect('/categoria/menu?mensaje=Error editando categoria');
+                }
+            } else {
+                const mensajeError = 'DATOS INVALIDOS'
+                return res.redirect('/categoria/editar/'+parametrosRuta.id+'?error=' + mensajeError);
+            }
+        } catch (e) {
+            console.error(e)
+            throw new BadRequestException({
+                mensaje: 'Error validando datos'
+            });
+        }
+    }
+
+    @Post('eliminar/:id')
+    async eliminarCategoria(
+        @Param() parametrosRuta,
+        @Res() res
+    ) {
+        try {
+            const id = Number(parametrosRuta.id);
+            await this._categoriaService.eliminarUno(id);
+            return res.redirect('/categoria/menu?mensaje=Categoria eliminado')
+        } catch (error) {
+            console.log(error)
+            return res.redirect('/categoria/menu?eror=Error eliminando categoria')
+        }
+
+    }
+
 
 }

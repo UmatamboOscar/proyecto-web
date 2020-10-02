@@ -5,6 +5,9 @@ import {LibroService} from "./libro.service";
 import {LibroController} from "./libro.controller";
 import {AutorModule} from "../autor/autor.module";
 import {CategoriaModule} from "../categoria/categoria.module";
+import {LibroAutorService} from "../libro_autor/libro_autor.service";
+import {LibroAutorModule} from "../libro_autor/libro_autor.module";
+import {LibroCategoriaModule} from "../libro_categoria/libro_categoria.module";
 
 @Module(
     {
@@ -14,6 +17,8 @@ import {CategoriaModule} from "../categoria/categoria.module";
         imports:[
             AutorModule,
             CategoriaModule,
+            LibroAutorModule,
+            LibroCategoriaModule,
             TypeOrmModule
                 .forFeature([
                         LibroEntity

@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     InternalServerErrorException,
@@ -33,7 +34,6 @@ export class AppController {
     ) {
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
-        let resultadoConsulta
         let resultadoConsulta2
         let busqueda
         try {
@@ -146,6 +146,7 @@ export class AppController {
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta
         const busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
+        const consultaCategorias = await this._categoriasService.buscarTodos()
         try {
             resultadoConsulta = await this._libroService.buscarTodos();
         } catch (error) {
@@ -159,7 +160,8 @@ export class AppController {
                         libros: resultadoConsulta,
                         parametrosConsulta: parametrosConsulta,
                         usuario: session.usuario,
-                        roles: session.roles
+                        roles: session.roles,
+                        categorias: consultaCategorias
                     }
                 )
             } else {
