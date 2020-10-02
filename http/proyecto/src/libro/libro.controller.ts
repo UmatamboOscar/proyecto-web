@@ -288,15 +288,22 @@ export class LibroController{
         @Res() res,
         @Query() parametrosConsulta
     ) {
+        let buscarDetalleAutor
+        let buscarDetalleCategoria
+        const id = Number(parametrosRuta.id);
         try {
-            const id = Number(parametrosRuta.id);
-            await this._libroService.eliminarUno(id);
-            return res.redirect('/libro/menu?mensaje=Libro eliminado&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
+            buscarDetalleAutor = await this._libroAutorService.buscarDetallePorIdLib(id)
+            buscarDetalleCategoria = await this._libroCategoriaService.buscarDetallePorIdLib(id)
         } catch (error) {
             console.log(error)
             return res.redirect('/libro/menu?eror=Error eliminando libro')
         }
-
+        if( buscarDetalleCategoria && buscarDetalleAutor){
+            await this._libroAutorService.eliminarDetalleLibroAutor(buscarDetalleAutor[0])
+            await this._libroCategoriaService.eliminarDetalleLibroCategoria(buscarDetalleCategoria[0])
+            await this._libroService.eliminarUno(id)
+            return res.redirect('/libro/menu?mensaje=Libro eliminado&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
+        }
     }
 
 }

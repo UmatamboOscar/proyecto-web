@@ -27,7 +27,7 @@
                             <a href="/libro/editar/<%=objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                                 <button>EDITAR</button>
                             </a>
-                            <form action="/libro/eliminar/<%= objeto.id%>" method="Post">
+                            <form action="/libro/eliminar/<%= objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>" method="Post">
                                 <button>ELIMINAR</button>
                             </form>
                         </td>
