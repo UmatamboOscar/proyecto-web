@@ -165,15 +165,15 @@ export class LibroController{
             let libroAutor1;
             libroAutor1 = {
                 libro: crearLibro,
-                autor: buscarAutor,
-                idLibro: crearLibro.id
+                autor: buscarAutor[0],
+                idLibro: Number(crearLibro.id)
             }
             libroAutor = libroAutor1
             let libroCategoria1;
             libroCategoria1 = {
                 libro: crearLibro,
-                categoria: buscarCategoria,
-                idLibro: crearLibro.id
+                categoria: buscarCategoria[0],
+                idLibro: Number(crearLibro.id)
             }
             libroCategoria = libroCategoria1
             detalleLibroAutorCreado = await this._libroAutorService.crearNuevoLibroAutor(libroAutor)
