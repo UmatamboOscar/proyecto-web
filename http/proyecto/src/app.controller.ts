@@ -15,13 +15,15 @@ import {CategoriaService} from "./categoria/categoria.service";
 import {LibroEntity} from "./libro/libro.entity";
 import {FindManyOptions} from "typeorm";
 import {CategoriaEntity} from "./categoria/categoria.entity";
+import {AutorService} from "./autor/autor.service";
 
 
 @Controller()
 export class AppController {
     constructor(private readonly appService: AppService,
                 private readonly _libroService: LibroService,
-                private readonly _categoriasService: CategoriaService) {
+                private readonly _categoriasService: CategoriaService,
+                private readonly _autorService: AutorService) {
     }
 
     @Get()
@@ -183,6 +185,36 @@ export class AppController {
         }
     }
 
+    @Get('autores')
+    async autores(
+        @Res() res,
+        @Query() parametrosConsulta,
+        @Session() session
+    ) {
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
+        let resultadoConsulta
+        let resultadoConsulta2
+        try {
+            resultadoConsulta = await this._categoriasService.buscarTodos();
+            resultadoConsulta2 = await this._autorService.buscarTodos();
+        } catch (error) {
+            throw  new InternalServerErrorException('Error encontrando autores')
+        }
+        if (resultadoConsulta2) {
+                res.render(
+                    'inicio/autores',
+                    {
+                        categorias: resultadoConsulta,
+                        autores: resultadoConsulta2,
+                        parametrosConsulta: parametrosConsulta,
+                        usuario: session.usuario,
+                        roles: session.roles
+                    })
+            } else {
+                throw new NotFoundException('No se encontraron autores')
+            }
+        }
+    }
 
 
-}

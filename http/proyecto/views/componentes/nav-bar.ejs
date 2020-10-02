@@ -27,6 +27,7 @@
             <% if(esAdministrador) { %>
                 <a class="navbar-brand" href="<%= estaLogueado ? '/libro/administracion?usuario='+usuario+'&rol='+roles[0] : '/libro/administracion'%>">Administración</a>
             <% } %>
+            <a class="navbar-brand" href="autores">Autores</a>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="/inicio" >
             <input class="form-control mr-sm-2" type="search" name="busqueda" placeholder="busqueda" aria-label="busqueda">
