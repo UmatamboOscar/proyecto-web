@@ -34,13 +34,8 @@
             <p> ERROR <%=error%></p>
             <%}%>
         </div>
-        <div id="divHijo">
-            <form action="/libros" method="get">
-                <button>REGRESAR</button>
-            </form>
-        </div>
         <div id="divHijo" class="centerTable">
-            <form action="<%=existeLibro ? '/libro/editar/' + libro.id : '/libro/crear' %>"
+            <form action="<%=existeLibro ? '/libro/editar/'+libro.id+'?usuario='+usuario+'&rol='+roles[0] : '/libro/crear?usuario='+usuario+'&rol='+roles[0] %>"
                   method="POST">
                 <table>
                     <tr>
@@ -93,7 +88,7 @@
                     <br>
                     <button type="submit"><%=existeLibro ? "EDITAR" : "CREAR" %></button>
                     <button type="reset">RESETEAR</button>
-                    <a href="menu">
+                    <a href="menu?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                         <button type="button">CANCELAR</button>
                     </a>
                 </div>

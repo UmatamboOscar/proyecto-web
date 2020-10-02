@@ -5,9 +5,9 @@
 <div class="row" style="margin-left: 30px">
     <div  class="col-lg-12" id="divPadre">
         <div id="divHijo">
-            <form action="/libro/crear">
+            <a href="/libro/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                 <button type="submit"> Crear un nuevo libro</button>
-            </form>
+            </a>
         </div>
         <div class="centerTable">
             <table>
@@ -24,18 +24,18 @@
                         <td><%= objeto.stock%></td>
                         <td>$<%= objeto.precio%></td>
                         <td>
-                            <a href="/libro/editar/<%=objeto.id%>">
+                            <a href="/libro/editar/<%=objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                                 <button>EDITAR</button>
                             </a>
-                            <a href="/libro/eliminar/<%= objeto.id%>">
+                            <form action="/libro/eliminar/<%= objeto.id%>" method="Post">
                                 <button>ELIMINAR</button>
-                            </a>
+                            </form>
                         </td>
                     </tr>
                 <% } ) %>
             </table>
         </div>
-        <a href="administracion">
+        <a href="administracion?usuario=<%=usuario%>&rol=<%=roles[0]%>">
             <button type="button">IR A MENU ADMINISTRADOR</button>
         </a>
     </div>

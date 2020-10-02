@@ -5,7 +5,7 @@
 <div class="row" style="margin-left: 30px">
     <div id="divPadre">
         <div id="divHijo">
-            <form action="/autor/crear">
+            <form action="/autor/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                 <button type="submit"> Crear un nuevo Autor</button>
             </form>
         </div>
@@ -37,7 +37,7 @@
                 <% } ) %>
             </table>
         </div>
-        <a href="/libro/administracion">
+        <a href="/libro/administracion?usuario=<%=usuario%>&rol=<%=roles[0]%>">
             <button type="button">IR A MENU ADMINISTRADOR</button>
         </a>
     </div>
