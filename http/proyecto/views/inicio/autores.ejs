@@ -1,0 +1,18 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+<%- include('../componentes/nav-bar')%>
+<div class="row">
+    <% autores.forEach( (objeto)=>{ %>
+    <div class="card" style="width: 18rem;">
+        <img src="<%=objeto.imagen%>" class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text"><b>Nombre: </b><%=objeto.nombre%></p>
+            <p class="card-text"><b>Descripcion: </b><%=objeto.descripcion%></p>
+            <p class="card-text"><b>Nacionalidad: </b><%=objeto.nacionalidad%></p>
+        </div>
+        <br/>
+    </div>
+    <%})%>
+</div>
+<br/>
+<div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>
