@@ -19,18 +19,23 @@
                     <tr>
                         <td><%= objeto.nombre%></td>
                         <td style="width:500px">
+                            <div class="row">
+                            <div class="col-lg-4">
                             <a href="/categoria/editar/<%=objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                                 <button>EDITAR</button>
-                            </a>
+                            </a></div>
+                            <div class="col-lg-4">
                             <form action="/categoria/eliminar/<%= objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>"
-                                  method="POST"
-                            >
+                                  method="POST">
                                 <button type="submit">ELIMINAR</button>
                             </form>
+                            </div>
+                            </div>
                         </td>
                     </tr>
                 <% } ) %>
             </table>
+            </row>
         </div>
         <a href="/libro/administracion?usuario=<%=usuario%>&rol=<%=roles[0]%>">
             <button type="button">IR A MENU ADMINISTRADOR</button>
@@ -39,5 +44,5 @@
     </div>
 </div>
 <br/>
-</row>
+
     <div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>
