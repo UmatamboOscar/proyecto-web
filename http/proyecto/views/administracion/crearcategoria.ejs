@@ -1,0 +1,40 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+
+<% const existeCategoria = typeof categoria != 'undefined' %>
+
+<% let existenombre = typeof nombre !== 'undefined' %>
+
+<%if(existeCategoria) {%>
+    <% existenombre = true %>
+    <% nombre = categoria.nombre%>
+<%}%>
+<h1> <%= existeCategoria ? 'EDITAR' : 'CREAR NUEVA'%> CATEGORIA</h1>
+<row>
+    <div id="divPadre">
+        <div id="divHijo">
+            <% if ( typeof error !== 'undefined') {%>
+            <p> ERROR <%=error%></p>
+            <%}%>
+        </div>
+        <div id="divHijo" class="centerTable">
+            <form action="<%=existeCategoria ? '/categoria/editar/' + categoria.id : '/categoria/crear' %>"
+                  method="POST">
+                <table>
+                    <tr>
+                        <td><b><label for="nombreID">Nombre:    </label></b></td>
+                        <td><input id="nombreID" type="text" name="nombre" value="<%= existenombre ? nombre : '' %>"></td>
+                    </tr>
+                </table>
+                <div id="divHijo">
+                    <br>
+                    <button type="submit"><%=existeCategoria ? "EDITAR" : "CREAR" %></button>
+                    <button type="reset">RESETEAR</button>
+                    <a href="menu">
+                        <button type="button">CANCELAR</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</row>

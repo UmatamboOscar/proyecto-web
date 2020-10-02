@@ -146,7 +146,7 @@ export class AppController {
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta
         const busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda)
-        let consultaCategorias = await this._categoriasService.buscarTodos()
+        const consultaCategorias = await this._categoriasService.buscarTodos()
         try {
             resultadoConsulta = await this._libroService.buscarTodos();
         } catch (error) {

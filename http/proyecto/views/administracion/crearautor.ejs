@@ -1,0 +1,61 @@
+<%- include('../estilos/estilos-generales')%>
+<%- include('../componentes/cabecera')%>
+
+    <% const existeAutor = typeof autor != 'undefined' %>
+
+    <% let existenombre = typeof nombre !== 'undefined' %>
+    <% let existeNacionalidad = typeof nacionalidad !== 'undefined' %>
+    <% let existeDescripcion = typeof descripcion !== 'undefined' %>
+    <% let existeImagen = typeof imagen !== 'undefined' %>
+
+    <%if(existeAutor) {%>
+        <% existenombre = true %>
+        <% existeNacionalidad = true %>
+        <% existeDescripcion = true %>
+        <% existeImagen = true %>
+        <% nombre = autor.nombre%>
+        <% nacionalidad = autor.nacionalidad%>
+        <% descripcion = autor.descripcion%>
+        <% imagen = autor.imagen%>
+    <%}%>
+    <h1> <%= existeAutor ? 'EDITAR' : 'CREAR NUEVO'%> AUTOR</h1>
+    <row>
+        <div id="divPadre">
+            <div id="divHijo">
+                <% if ( typeof error !== 'undefined') {%>
+                <p> ERROR <%=error%></p>
+                <%}%>
+            </div>
+            <div id="divHijo" class="centerTable">
+                <form action="<%=existeAutor ? '/autor/editar/' + autor.id : '/autor/crear' %>"
+                      method="POST">
+                    <table>
+                        <tr>
+                            <td><b><label for="nombreID">Nombre:    </label></b></td>
+                            <td><input id="nombreID" type="text" name="nombre" value="<%= existenombre ? nombre : '' %>"></td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="nacionalidadID">Nacionalidad:    </label></b></td>
+                            <td><input id="nacionalidadID" type="text" name="nacionalidad" value="<%= existeNacionalidad ? nacionalidad : '' %>"></td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="descripcionID">Descripcion:  </label></b></td>
+                            <td><input id="descripcionID" type="text" name="descripcion" value="<%= existeDescripcion ? descripcion : '' %>"></td>
+                        </tr>
+                        <tr>
+                            <td><b><label for="imagenID">Imagen:  </label></b></td>
+                            <td><input id="imagenID" type="text" name="imagen" value="<%= existeImagen ? imagen : '' %>"></td>
+                        </tr>
+                    </table>
+                    <div id="divHijo">
+                        <br>
+                        <button type="submit"><%=existeAutor ? "EDITAR" : "CREAR" %></button>
+                        <button type="reset">RESETEAR</button>
+                        <a href="menu">
+                            <button type="button">CANCELAR</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </row>

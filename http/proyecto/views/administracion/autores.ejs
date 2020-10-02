@@ -14,17 +14,19 @@
                     <th>NOMBRE</th>
                     <th>NACIONALIDAD</th>
                     <th>DESCRIPCIÓN</th>
+                    <th>IMAGEN</th>
                 </tr>
                 <% autores.forEach( (objeto)=>{ %>
                     <tr>
                         <td><%= objeto.nombre%></td>
                         <td><%= objeto.nacionalidad%></td>
                         <td><%= objeto.descripcion%></td>
+                        <td><%= objeto.imagen%></td>
                         <td>
-                            <a href="/libro/editar/<%=objeto.id%>">
+                            <a href="/autor/editar/<%=objeto.id%>">
                                 <button>EDITAR</button>
                             </a>
-                            <form action="/libro/eliminar/<%= objeto.id%>"
+                            <form action="/autor/eliminar/<%= objeto.id%>"
                                   method="POST"
                             >
                                 <button type="submit">ELIMINAR</button>
