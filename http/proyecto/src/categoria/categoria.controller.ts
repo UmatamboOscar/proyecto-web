@@ -49,12 +49,17 @@ export class CategoriaController{
     vistaCrearCategoria(
         @Query() parametrosConsulta,
         @Res() res,
+        @Session() session
     ) {
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
         return res.render(
             'administracion/crearcategoria',
             {
                 error: parametrosConsulta.error,
-                nombre: parametrosConsulta.nombre
+                nombre: parametrosConsulta.nombre,
+                usuario: session.usuario,
+                roles: session.roles
             }
         )
     }
@@ -62,7 +67,8 @@ export class CategoriaController{
     @Post('crear')
     async crearCategoria(
         @Body() parametrosCuerpo,
-        @Res() res
+        @Res() res,
+        @Query() parametrosConsulta
     ) {
         const categoria = new CategoriaCreateDto()
         categoria.nombre = parametrosCuerpo.nombre
@@ -78,7 +84,7 @@ export class CategoriaController{
                     return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}`);
                 }
                 if (respuesta) {
-                    return res.redirect('menu')
+                    return res.redirect('/categoria/menu?usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
                 } else {
                     const mensajeError = 'Creando nuevo Categoria'
                     return res.redirect('crear?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}`);
@@ -101,8 +107,11 @@ export class CategoriaController{
     async vistaEditarCategoria(
         @Query() parametrosConsulta,
         @Param() parametrosRuta,
-        @Res() res
+        @Res() res,
+        @Session() session
     ) {
+        session.usuario = parametrosConsulta.usuario
+        session.roles = [parametrosConsulta.rol]
         const id = Number(parametrosRuta.id)
         let categoriaEncontrada;
         try {
@@ -116,7 +125,9 @@ export class CategoriaController{
                 'administracion/crearcategoria',
                 {
                     error: parametrosConsulta.error,
-                    categoria: categoriaEncontrada
+                    categoria: categoriaEncontrada,
+                    usuario: session.usuario,
+                    roles: session.roles
                 }
             )
         }else{
@@ -129,6 +140,7 @@ export class CategoriaController{
         @Param() parametrosRuta,
         @Body() parametrosCuerpo,
         @Res() res,
+        @Query() parametrosConsulta,
     ) {
         const categoria = new CategoriaUpdateDto()
         categoria.nombre = parametrosCuerpo.categoria;
@@ -141,7 +153,7 @@ export class CategoriaController{
                 } as CategoriaEntity
                 try {
                     await this._categoriaService.editarUno(categoriaEditada);
-                    return res.redirect('/categoria/menu?mensaje=Categoria editada');
+                    return res.redirect('/categoria/menu?mensaje=Categoria editada&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol);
                 }catch (error) {
                     console.error(error);
                     return res.redirect('/categoria/menu?mensaje=Error editando categoria');
@@ -161,12 +173,13 @@ export class CategoriaController{
     @Post('eliminar/:id')
     async eliminarCategoria(
         @Param() parametrosRuta,
-        @Res() res
+        @Res() res,
+        @Query() parametrosConsulta
     ) {
         try {
             const id = Number(parametrosRuta.id);
             await this._categoriaService.eliminarUno(id);
-            return res.redirect('/categoria/menu?mensaje=Categoria eliminado')
+            return res.redirect('/categoria/menu?mensaje=Categoria eliminada&usuario='+parametrosConsulta.usuario+'&rol='+parametrosConsulta.rol)
         } catch (error) {
             console.log(error)
             return res.redirect('/categoria/menu?eror=Error eliminando categoria')

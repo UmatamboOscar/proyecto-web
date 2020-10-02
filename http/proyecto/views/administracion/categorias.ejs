@@ -5,9 +5,9 @@
 <div class="row" style="margin-left: 30px">
     <div id="divPadre">
         <div id="divHijo">
-            <form action="/categoria/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
+            <a href="/categoria/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                 <button type="submit"> Crear Categoria</button>
-            </form>
+            </a>
         </div>
         <div class="centerTable">
             <row>
@@ -19,12 +19,14 @@
                     <tr>
                         <td><%= objeto.nombre%></td>
                         <td style="width:500px">
-                            <a href="/categoria/editar/<%=objeto.id%>">
+                            <a href="/categoria/editar/<%=objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                                 <button>EDITAR</button>
                             </a>
-                            <a href="/categoria/eliminar/<%= objeto.id%>">
-                                <button>ELIMINAR</button>
-                            </a>
+                            <form action="/categoria/eliminar/<%= objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>"
+                                  method="POST"
+                            >
+                                <button type="submit">ELIMINAR</button>
+                            </form>
                         </td>
                     </tr>
                 <% } ) %>

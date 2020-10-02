@@ -19,12 +19,12 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <% categorias.forEach( (objeto)=>{ %>
                         <tr>
-                            <a class="dropdown-item" href="/inicio?busquedaCategoria=<%=objeto.nombre%>"><%= objeto.nombre%></a>
+                            <a class="dropdown-item" href="<%= estaLogueado ? '/inicio?busquedaCategoria='+objeto.nombre+'&usuario='+usuario+'&rol='+roles[0] : '/inicio?busquedaCategoria='+objeto.nombre%>"><%= objeto.nombre%></a>
                         </tr>
                     <% } ) %>
                 </div>
             </li>
-            <a class="navbar-brand" href="/autores">Autores</a>
+            <a class="navbar-brand" href="<%= estaLogueado ? '/autores?usuario='+usuario+'&rol='+roles[0] : '/autores'%>">Autores</a>
             <% if(esAdministrador) { %>
                 <a class="navbar-brand" href="<%= estaLogueado ? '/libro/administracion?usuario='+usuario+'&rol='+roles[0] : '/libro/administracion'%>">Administración</a>
             <% } %>
