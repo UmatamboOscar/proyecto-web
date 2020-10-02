@@ -34,10 +34,10 @@ constructor(
             const consulta: FindManyOptions<LibroEntity> = {
                 where: [
                     {
-                        titulo: textoDeConsulta
+                        titulo: Like(`%${textoDeConsulta}%`)
                     },
                     {
-                        ISBN: textoDeConsulta
+                        ISBN: Like(`%${textoDeConsulta}%`)
                     }
                 ]
             }
@@ -46,4 +46,6 @@ constructor(
                 return this.repositorio.find()
             }
     }
+
+
 }

@@ -12,6 +12,9 @@ import {
 import { AppService } from './app.service';
 import {LibroService} from "./libro/libro.service";
 import {CategoriaService} from "./categoria/categoria.service";
+import {LibroEntity} from "./libro/libro.entity";
+import {FindManyOptions} from "typeorm";
+import {CategoriaEntity} from "./categoria/categoria.entity";
 
 
 @Controller()
@@ -35,10 +38,20 @@ export class AppController {
         session.usuario = parametrosConsulta.usuario
         session.roles = [parametrosConsulta.rol]
         let resultadoConsulta2
-        let busqueda
+        let buscarLibrosPorCategoria
+        let libroEnt : LibroEntity
+        let busqueda : Array<LibroEntity> = []
         try {
             resultadoConsulta2 = await this._categoriasService.buscarTodos();
-            busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda);
+            if(parametrosConsulta.busquedaCategoria){
+                buscarLibrosPorCategoria = await this._categoriasService.buscarCategoriaPorNombre(parametrosConsulta.busquedaCategoria)
+                for (const libro of buscarLibrosPorCategoria[0].libros) {
+                    libroEnt = await this._libroService.buscarUno(libro.idLibro)
+                    busqueda.push(libroEnt)
+                }
+            }else {
+                busqueda = await this._libroService.consultarLibros(parametrosConsulta.busqueda);
+            }
         } catch (error) {
             throw  new InternalServerErrorException('Error encontrando libro')
         }
