@@ -18,7 +18,7 @@
             <%}%>
         </div>
         <div id="divHijo" class="centerTable">
-            <form action="<%=existeCategoria ? '/categoria/editar/' + categoria.id : '/categoria/crear' %>"
+            <form action="<%=existeCategoria ? '/categoria/editar/'+categoria.id+'?usuario='+usuario+'&rol='+roles[0] : '/categoria/crear?usuario='+usuario+'&rol='+roles[0]%>"
                   method="POST">
                 <table>
                     <tr>
@@ -30,7 +30,7 @@
                     <br>
                     <button type="submit"><%=existeCategoria ? "EDITAR" : "CREAR" %></button>
                     <button type="reset">RESETEAR</button>
-                    <a href="menu">
+                    <a href="/categoria/menu?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                         <button type="button">CANCELAR</button>
                     </a>
                 </div>
