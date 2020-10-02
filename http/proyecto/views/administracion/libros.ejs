@@ -1,8 +1,9 @@
 <%- include('../estilos/estilos-generales')%>
 <%- include('../componentes/cabecera')%>
 <%- include('../componentes/nav-bar')%>
+<row>
 <div class="row" style="margin-left: 30px">
-    <div id="divPadre">
+    <div  class="col-lg-12" id="divPadre">
         <div id="divHijo">
             <form action="/libro/crear">
                 <button type="submit"> Crear un nuevo libro</button>
@@ -26,17 +27,19 @@
                             <a href="/libro/editar/<%=objeto.id%>">
                                 <button>EDITAR</button>
                             </a>
-                            <form action="/libro/eliminar/<%= objeto.id%>"
-                                  method="POST"
-                            >
-                                <button type="submit">ELIMINAR</button>
-                            </form>
+                            <a href="/libro/eliminar/<%= objeto.id%>">
+                                <button>ELIMINAR</button>
+                            </a>
                         </td>
                     </tr>
                 <% } ) %>
             </table>
         </div>
+        <a href="administracion">
+            <button type="button">IR A MENU ADMINISTRADOR</button>
+        </a>
     </div>
 </div>
 <br/>
+</row>
 <div class="col-sm-12"><%- include('../componentes/pie-de-pantalla')%></div>
