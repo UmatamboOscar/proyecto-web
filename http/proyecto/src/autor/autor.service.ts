@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {FindManyOptions, Repository} from "typeorm";
 import {AutorEntity} from "./autor.entity";
 
 @Injectable()
@@ -29,4 +29,15 @@ export  class AutorService {
         return this.repositorio.save(autorEditado);
     }
 
+
+    buscarUnAutorPorNombre(textoConsulta?: string){
+        const consulta: FindManyOptions<AutorEntity> = {
+            where: [
+                {
+                    nombre: textoConsulta
+                }
+            ]
+        }
+        return this.repositorio.find(consulta)
+    }
 }

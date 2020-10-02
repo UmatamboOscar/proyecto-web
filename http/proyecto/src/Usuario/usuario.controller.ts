@@ -85,14 +85,6 @@ export class UsuarioController {
                 session.usuario = usuarioCreado.nombre
                 session.roles = [rolEncontrado.rol]
                 res.redirect('/inicio')
-                /*res.render(
-                    'inicio/inicio',
-                    {
-                        mensaje: 'Usuario registrado correctamente',
-                        usuario: session.usuario,
-                        roles: session.roles
-                    }
-                )*/
             } else {
                 const mensajeError = 'Datos Inválidos'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
@@ -118,32 +110,10 @@ export class UsuarioController {
             res.redirect('/login?error=' + mensajeError)
         }
         if(busquedaUsuario){
-            console.log( busquedaUsuario[0] )
             if(  busquedaUsuario[0].password == password){
-                // let buscarRol
-                // let respuestaRol
-                // try {
-                //     buscarRol = await this._rolUsuarioService.buscarPorIdUsuario(busquedaUsuario[0].roles.id)
-                //     console.log(buscarRol.usuarioId)
-                //     console.log(respuestaRol)
-                // }catch (error) {
-                //     const mensajeError = 'no se encontro rol'
-                //     res.redirect('/login?error=' + mensajeError)
-                // }
-                // if(buscarRol){
-                //     const mensajeError = 'jeje si encontro'
-                //     res.redirect('/login?error=' + mensajeError)
-                // }
                 session.usuario = busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido
                 session.roles = [busquedaUsuario[0].rol]
                 res.redirect('/inicio?usuario='+busquedaUsuario[0].nombre+' '+busquedaUsuario[0].apellido+'&rol='+busquedaUsuario[0].rol)
- /*               res.render(
-                    'inicio/inicio',
-                    {
-                        usuario: session.usuario,
-                        roles: session.roles
-                    }
-                )*/
             }else{
                 const mensajeError = 'Usuario o contraseña incorrecta'
                 res.redirect('/login?error=' + mensajeError)
