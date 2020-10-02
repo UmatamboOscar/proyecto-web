@@ -18,7 +18,9 @@
         <% descripcion = autor.descripcion%>
         <% imagen = autor.imagen%>
     <%}%>
+<div id="divPadre">
     <h1> <%= existeAutor ? 'EDITAR' : 'CREAR NUEVO'%> AUTOR</h1>
+</div>
     <row>
         <div id="divPadre">
             <div id="divHijo">
@@ -27,7 +29,7 @@
                 <%}%>
             </div>
             <div id="divHijo" class="centerTable">
-                <form action="<%=existeAutor ? '/autor/editar/' + autor.id : '/autor/crear' %>"
+                <form action="<%=existeAutor ? '/autor/editar/'+autor.id+'?usuario='+usuario+'&rol='+roles[0] : '/autor/crear?usuario='+usuario+'&rol='+roles[0]%>"
                       method="POST">
                     <table>
                         <tr>
@@ -51,7 +53,7 @@
                         <br>
                         <button type="submit"><%=existeAutor ? "EDITAR" : "CREAR" %></button>
                         <button type="reset">RESETEAR</button>
-                        <a href="menu">
+                        <a href="/autor/menu?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                             <button type="button">CANCELAR</button>
                         </a>
                     </div>

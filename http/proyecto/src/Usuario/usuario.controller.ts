@@ -70,11 +70,11 @@ export class UsuarioController {
                 try {
                     rolEncontrado = await this._rolService.buscarUno(2)
                 } catch (error) {
-                    const mensajeError = 'Datos Inválidos'
+                    const mensajeError = 'Datos Inválidos 4'
                     return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
                 }
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 5'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
             let rolUsuarioCreado
@@ -88,7 +88,7 @@ export class UsuarioController {
                 rolUsuario = rolUsuario1
                 rolUsuarioCreado = await this._rolUsuarioService.crearNuevoRolUsuario(rolUsuario);
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 6'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
         }
@@ -97,7 +97,7 @@ export class UsuarioController {
                 session.roles = [rolEncontrado.rol]
                 res.redirect('/inicio')
             } else {
-                const mensajeError = 'Datos Inválidos'
+                const mensajeError = 'Datos Inválidos 7'
                 return res.redirect('/registro?error=' + mensajeError + `&nombre=${parametrosCuerpo.nombre}&apellido=${parametrosCuerpo.apellido}&cedula=${parametrosCuerpo.cedula}&correo=${parametrosCuerpo.correo}&telefono=${parametrosCuerpo.telefono}&domilicio=${parametrosCuerpo.domicilio}`)
             }
         }else{

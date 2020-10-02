@@ -2,12 +2,12 @@
 <%- include('../componentes/cabecera')%>
 <%- include('../componentes/nav-bar')%>
 <row>
-<div class="row" style="margin-left: 30px">
-    <div id="divPadre">
-        <div id="divHijo">
-            <form action="/autor/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
+<div class="row" style="margin-left: 0px">
+    <div id="divPadre" class="col-lg-12">
+        <div id="divHijo"  class="col-lg-12">
+            <a href="/autor/crear?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                 <button type="submit"> Crear un nuevo Autor</button>
-            </form>
+            </a>
         </div>
         <div class="centerTable">
             <table>
@@ -24,12 +24,11 @@
                         <td><%= objeto.descripcion%></td>
                         <td><%= objeto.imagen%></td>
                         <td>
-                            <a href="/autor/editar/<%=objeto.id%>">
+                            <a href="/autor/editar/<%=objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>">
                                 <button>EDITAR</button>
                             </a>
-                            <form action="/autor/eliminar/<%= objeto.id%>"
-                                  method="POST"
-                            >
+                            <form action="/autor/eliminar/<%= objeto.id%>?usuario=<%=usuario%>&rol=<%=roles[0]%>"
+                                  method="POST">
                                 <button type="submit">ELIMINAR</button>
                             </form>
                         </td>

@@ -59,6 +59,7 @@
                         <td><input id="imagenID" type="text" name="imagen" value="<%=existeImagen ? imagen:''%>"></td>
                         <td style="width:200px">Ingresar el link a la imagen del libro</td>
                     </tr>
+                    <% if(existeLibro){}else{%>
                     <tr>
                         <td><label for="autorID">Autores:    </label></td>
                         <td>
@@ -79,6 +80,7 @@
                             </select>
                         </td>
                     </tr>
+                    <%}%>
                     <tr>
                         <td><label for="descripciónID">descripción:    </label></td>
                         <td><input name="descripcion" id="descripciónID" type="text" value="<%=existeDescripcion ? descripcion:''%>"></td>
